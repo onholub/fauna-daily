@@ -10,11 +10,8 @@
 
   body {
     font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-    background: #fff;
-    color: #1a1a1a;
-    padding: 0;
-    font-size: 13px;
-    line-height: 1.5;
+    background: #fff; color: #1a1a1a; padding: 0;
+    font-size: 13px; line-height: 1.5;
   }
 
   .container { max-width: 1000px; margin: 0 auto; padding: 32px 40px; }
@@ -58,23 +55,6 @@
     border-bottom: 1px solid #ccc; margin-bottom: 10px;
   }
 
-  /* ── STATUS BAR ── */
-  .status-bar {
-    display: flex; gap: 24px; margin-bottom: 20px; padding: 10px 16px;
-    background: #f7f7f7; border: 1px solid #e0e0e0; border-radius: 4px;
-  }
-  .status-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 0.76rem; font-weight: 600; color: #333;
-    cursor: pointer; user-select: none;
-  }
-  .status-item:hover { opacity: 0.7; }
-  .ind { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .ind-g { background: #2d7a3a; }
-  .ind-y { background: #b8860b; }
-  .ind-r { background: #b91c1c; }
-  .ind-n { background: #999; }
-
   /* ── EDITABLE ── */
   [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.15s; }
   [contenteditable="true"]:hover { background: #f5f5f0; }
@@ -88,10 +68,6 @@
     display: flex; align-items: baseline; gap: 6px;
   }
   .exec-list li::before { content: '–'; position: absolute; left: 0; color: #666; font-weight: 700; }
-  .tag {
-    background: #f0f0f0; border: 1px solid #d0d0d0; border-radius: 3px;
-    padding: 1px 6px; font-weight: 600; font-size: 0.8rem; font-family: monospace;
-  }
 
   /* ── TABLES ── */
   table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
@@ -117,6 +93,13 @@
     border-right: 3px solid #b8860b; font-weight: 700; color: #111;
   }
 
+  /* ── CONDITIONAL: MET / NOT MET ── */
+  td.met { color: #1a7a2e; font-weight: 700; }
+  td.met::after { content: ' ✓'; font-size: 0.7rem; }
+  td.notmet { color: #b91c1c; font-weight: 700; }
+  td.today-cell.met { color: #1a7a2e; }
+  td.today-cell.notmet { color: #b91c1c; }
+
   /* ── LIMITERS ── */
   .lim-table th { background: #444; }
   .lim-table td { font-family: system-ui, sans-serif; text-align: left; vertical-align: top; }
@@ -131,9 +114,7 @@
   .p2 { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
 
   /* ── INLINE LEGEND ── */
-  .legend-inline {
-    margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7;
-  }
+  .legend-inline { margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7; }
   .legend-inline .p-badge { font-size: 0.65rem; padding: 0px 5px; vertical-align: middle; cursor: default; }
 
   /* ── DETAILS / DAILY NOTES ── */
@@ -170,7 +151,6 @@
     font-size: 0.7rem; color: #888; margin-top: 12px;
     padding-top: 8px; border-top: 1px solid #eee;
   }
-  .resources-inline span { margin-right: 16px; }
 
   /* ── FOOTER ── */
   .footer {
@@ -184,8 +164,6 @@
     .container { padding: 16px; }
     [contenteditable="true"]:hover { background: transparent; }
     .x-del { display: none; }
-    details { open: true; }
-    details[open] summary { border-bottom: 1px solid #ccc; }
   }
 </style>
 </head>
@@ -217,36 +195,20 @@
     </div>
   </div>
 
-  <!-- STATUS -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-item" data-s="Ramp-Up,Active,Paused,Complete" data-c="ind-y,ind-g,ind-r,ind-n">
-      <span class="ind ind-y"></span> Production: <span class="sl">Ramp-Up</span>
-    </div>
-    <div class="status-item" data-s="OK,At Risk,Critical" data-c="ind-g,ind-y,ind-r">
-      <span class="ind ind-g"></span> Safety: <span class="sl">OK</span>
-    </div>
-    <div class="status-item" data-s="OK,At Risk,Critical" data-c="ind-g,ind-y,ind-r">
-      <span class="ind ind-g"></span> Quality: <span class="sl">OK</span>
-    </div>
-    <div class="status-item" data-s="On Track,At Risk,Delayed" data-c="ind-n,ind-y,ind-r">
-      <span class="ind ind-n"></span> Delivery: <span class="sl">On Track</span>
-    </div>
-  </div>
-
   <!-- EXECUTIVE SUMMARY -->
   <div class="section">
     <div class="section-title">Executive Summary</div>
     <ul class="exec-list" id="execList">
-      <li><span contenteditable="true">Pilot production started — <span class="tag">1st unit built</span> (MES ref: XXXX)</span><button class="x-del">×</button></li>
-      <li><span contenteditable="true">Completion target: <strong>3 units by end of CW41</strong></span><button class="x-del">×</button></li>
-      <li><span contenteditable="true">Preparation target: <strong>5 units for CW42</strong></span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Pilot production started — 1st unit built (MES ref: XXXX)</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Completion target: 3 units by end of CW41</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Preparation target: 5 units for CW42</span><button class="x-del">×</button></li>
     </ul>
   </div>
 
   <!-- PRODUCTION OVERVIEW -->
   <div class="section">
     <div class="section-title">Production Overview — Actual / Planned</div>
-    <table>
+    <table id="prodTable">
       <thead>
         <tr>
           <th>Stage</th>
@@ -258,18 +220,18 @@
           <th>CW41</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td>AGX</td><td class="dim" contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td class="dim" contenteditable="true">0 / 0</td><td><strong contenteditable="true">0 / 3</strong></td></tr>
-        <tr><td>Board</td><td class="dim" contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td class="dim" contenteditable="true">0 / 0</td><td><strong contenteditable="true">0 / 3</strong></td></tr>
-        <tr><td>Assembly</td><td class="dim" contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td class="dim" contenteditable="true">0 / 0</td><td><strong contenteditable="true">0 / 3</strong></td></tr>
-        <tr><td>Final Testing</td><td class="dim" contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td class="dim" contenteditable="true">0 / 0</td><td><strong contenteditable="true">0 / 3</strong></td></tr>
-        <tr><td>Pack Out</td><td class="dim" contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td class="dim" contenteditable="true">0 / 0</td><td><strong contenteditable="true">0 / 3</strong></td></tr>
+      <tbody id="prodBody">
+        <tr><td>AGX</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
+        <tr><td>Board</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
+        <tr><td>Assembly</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
+        <tr><td>Final Testing</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
+        <tr><td>Pack Out</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
       </tbody>
     </table>
-    <p style="font-size:0.7rem;color:#999;margin-top:6px;">Click any cell to edit · Actual / Planned · ▼ = Current day</p>
+    <p style="font-size:0.7rem;color:#999;margin-top:6px;">Click cell to edit · Format: Actual / Planned · Green = on target · Red = behind</p>
   </div>
 
-  <!-- MAIN LIMITERS + INLINE LEGEND -->
+  <!-- MAIN LIMITERS -->
   <div class="section">
     <div class="section-title">Main Limiters</div>
     <table class="lim-table">
@@ -281,9 +243,9 @@
       </tbody>
     </table>
     <div class="legend-inline">
-      <span class="p-badge p1">P1</span> Safety: endangered · Quality: compliance · Delivery: <strong>line down</strong>
+      <span class="p-badge p1">P1</span> Safety: endangered · Quality: compliance · Delivery: line down
       &nbsp;&nbsp;
-      <span class="p-badge p2">P2</span> Quality: primary function failure · Delivery: <strong>delay &gt;6h</strong>
+      <span class="p-badge p2">P2</span> Quality: primary function failure · Delivery: delay &gt;6h
     </div>
   </div>
 
@@ -306,7 +268,6 @@
     Resources: Daily Meeting Notes · MES Build Records (XXXX) · CW41/CW42 Production Plan
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">Fauna Sprout Robot · Pilot Production · CW41 · Confidential</div>
 </div>
 
@@ -316,7 +277,46 @@
   function flash(msg){ var m=$('statusMsg'); m.textContent=msg; m.classList.add('show'); setTimeout(function(){ m.classList.remove('show'); },2000); }
   function today(){ return new Date().toISOString().split('T')[0]; }
 
-  /* delegate delete */
+  /* ── CONDITIONAL FORMATTING ── */
+  function evalCell(td){
+    if(!td || td.cellIndex===0) return; /* skip stage name column */
+    var txt=td.textContent.trim();
+    var parts=txt.split('/');
+    /* remove old classes */
+    td.classList.remove('met','notmet');
+    if(parts.length!==2) return;
+    var actual=parseInt(parts[0].trim(),10);
+    var planned=parseInt(parts[1].trim(),10);
+    if(isNaN(actual)||isNaN(planned)) return;
+    if(planned===0 && actual===0) return; /* 0/0 = no target, neutral */
+    if(actual>=planned){ td.classList.add('met'); }
+    else{ td.classList.add('notmet'); }
+  }
+
+  function evalAllCells(){
+    var rows=$('prodBody').querySelectorAll('tr');
+    rows.forEach(function(tr){
+      var cells=tr.querySelectorAll('td');
+      cells.forEach(function(td){ evalCell(td); });
+    });
+  }
+
+  /* run on load */
+  evalAllCells();
+
+  /* run on edit within prod table */
+  $('prodTable').addEventListener('input', function(e){
+    var td=e.target.closest('td');
+    if(td) evalCell(td);
+  });
+
+  /* also run on blur for clean-up */
+  $('prodTable').addEventListener('focusout', function(e){
+    var td=e.target.closest('td');
+    if(td) evalCell(td);
+  });
+
+  /* ── delegate delete ── */
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('x-del')){
       var p=e.target.parentElement; if(p) p.remove();
@@ -329,25 +329,14 @@
     }
   });
 
-  /* status cycling */
-  document.addEventListener('click', function(e){
-    var item=e.target.closest('.status-item'); if(!item) return;
-    var ss=item.getAttribute('data-s').split(',');
-    var cc=item.getAttribute('data-c').split(',');
-    var lbl=item.querySelector('.sl'), dot=item.querySelector('.ind');
-    if(!lbl||!dot) return;
-    var i=ss.indexOf(lbl.textContent), n=(i+1)%ss.length;
-    lbl.textContent=ss[n]; dot.className='ind '+cc[n];
-  });
-
-  /* priority toggle */
+  /* ── priority toggle ── */
   document.addEventListener('click', function(e){
     if(!e.target.classList.contains('p-badge')||e.target.closest('.legend-inline')) return;
     if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
     else{ e.target.textContent='P1'; e.target.className='p-badge p1'; }
   });
 
-  /* + Note */
+  /* ── + Note ── */
   $('btnNote').addEventListener('click', function(){
     var det=document.querySelector('details'); if(det) det.open=true;
     var box=$('notesBox');
@@ -357,7 +346,7 @@
     d.querySelector('[contenteditable]').focus();
   });
 
-  /* + Limiter */
+  /* ── + Limiter ── */
   $('btnLim').addEventListener('click', function(){
     var nl=$('noLim'); if(nl) nl.remove();
     var lb=$('limBody'), tr=document.createElement('tr');
@@ -365,25 +354,28 @@
     lb.appendChild(tr); tr.querySelectorAll('[contenteditable]')[0].focus();
   });
 
-  /* + Summary */
+  /* ── + Summary ── */
   $('btnExec').addEventListener('click', function(){
     var ul=$('execList'), li=document.createElement('li');
     li.innerHTML='<span contenteditable="true">New item...</span><button class="x-del">\u00d7</button>';
     ul.appendChild(li); li.querySelector('[contenteditable]').focus();
   });
 
-  /* Save / Load */
-  function save(){ try{ localStorage.setItem('fauna_v3',$('report').innerHTML); flash('Saved'); }catch(e){ flash('Save failed'); } }
-  $('btnSave').addEventListener('click', save);
-  try{ var d=localStorage.getItem('fauna_v3'); if(d&&d.length>100) $('report').innerHTML=d; }catch(e){}
+  /* ── Save / Load ── */
+  function save(){ try{ localStorage.setItem('fauna_v4',$('report').innerHTML); flash('Saved'); }catch(e){ flash('Save failed'); } }
+  $('btnSave').addEventListener('click', function(){ save(); });
+  try{
+    var d=localStorage.getItem('fauna_v4');
+    if(d&&d.length>100){ $('report').innerHTML=d; evalAllCells(); }
+  }catch(e){}
 
-  /* Auto-save */
+  /* ── Auto-save ── */
   var t; document.addEventListener('input', function(){ clearTimeout(t); t=setTimeout(save,3000); });
 
-  /* Ctrl+S */
+  /* ── Ctrl+S ── */
   document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); save(); } });
 
-  /* Export */
+  /* ── Export ── */
   $('btnExport').addEventListener('click', function(){
     var c=document.documentElement.cloneNode(true);
     var tb=c.querySelector('#toolbar'); if(tb) tb.remove();
@@ -391,11 +383,12 @@
     c.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
     c.querySelectorAll('.status-item').forEach(function(e){ e.style.cursor='default'; });
     c.querySelectorAll('script').forEach(function(s){ s.remove(); });
-    var det=c.querySelectorAll('details'); det.forEach(function(d){ d.setAttribute('open',''); });
+    c.querySelectorAll('details').forEach(function(d){ d.setAttribute('open',''); });
     var b=new Blob(['<!DOCTYPE html>\n'+c.outerHTML],{type:'text/html'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(b);
     a.download='fauna-status-'+today()+'.html'; a.click();
   });
+
 })();
 </script>
 
