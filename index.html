@@ -298,4 +298,379 @@
   /* ── DELETE BTN ── */
   .row-del {
     background: none;
- 
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0 4px;
+    font-family: system-ui, sans-serif;
+  }
+
+  .row-del:hover { color: #b91c1c; }
+
+  /* ── RESOURCES ── */
+  .res-list { list-style: none; padding: 0; }
+  .res-list li { padding: 4px 0; font-size: 0.82rem; color: #333; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+  }
+
+  @media print {
+    .toolbar { display: none; }
+    body { padding-top: 32px; padding: 16px; }
+    .today-cell { background: #f5f5f5 !important; }
+    [contenteditable="true"]:hover { background: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ TOOLBAR ═══════ -->
+<div class="toolbar">
+  <span class="toolbar-title">EDIT MODE</span>
+  <button class="save-btn" onclick="saveData()">Save</button>
+  <button class="add-btn" onclick="addNote()">+ Note</button>
+  <button class="add-btn" onclick="addLimiter()">+ Limiter</button>
+  <button class="add-btn" onclick="addExecBullet()">+ Summary Item</button>
+  <button class="export-btn" onclick="exportHTML()">Export HTML</button>
+  <span class="status-msg" id="statusMsg">Saved</span>
+</div>
+
+<div class="container" id="reportContent">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>Fauna Sprout Robot — Pilot Production Status</h1>
+      <div class="sub">Daily Executive Summary &amp; Standup Report</div>
+    </div>
+    <div class="header-right">
+      <strong contenteditable="true">CW41</strong> · <span contenteditable="true">Oct 5 – 9, 2026</span><br>
+      Updated: <strong contenteditable="true" id="updateDate">Tue, Oct 6, 2026</strong>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-item" onclick="cycleStatus(this)" data-states="Ramp-Up,Active,Paused,Complete" data-colors="ind-y,ind-g,ind-r,ind-n">
+      <span class="ind ind-y"></span> Production: <span class="s-label">Ramp-Up</span>
+    </div>
+    <div class="status-item" onclick="cycleStatus(this)" data-states="OK,At Risk,Critical" data-colors="ind-g,ind-y,ind-r">
+      <span class="ind ind-g"></span> Safety: <span class="s-label">OK</span>
+    </div>
+    <div class="status-item" onclick="cycleStatus(this)" data-states="OK,At Risk,Critical" data-colors="ind-g,ind-y,ind-r">
+      <span class="ind ind-g"></span> Quality: <span class="s-label">OK</span>
+    </div>
+    <div class="status-item" onclick="cycleStatus(this)" data-states="On Track,At Risk,Delayed" data-colors="ind-n,ind-y,ind-r">
+      <span class="ind ind-n"></span> Delivery: <span class="s-label">On Track</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="section">
+    <div class="section-title">Executive Summary</div>
+    <ul class="exec-list" id="execList">
+      <li><span contenteditable="true">Pilot production started — <span class="tag">1st unit built</span> (MES ref: XXXX)</span> <button class="row-del" onclick="this.parentElement.remove()">×</button></li>
+      <li><span contenteditable="true">Completion target: <strong>3 units by end of CW41</strong></span> <button class="row-del" onclick="this.parentElement.remove()">×</button></li>
+      <li><span contenteditable="true">Preparation target: <strong>5 units for CW42</strong></span> <button class="row-del" onclick="this.parentElement.remove()">×</button></li>
+    </ul>
+  </div>
+
+  <!-- PRODUCTION OVERVIEW -->
+  <div class="section">
+    <div class="section-title">Production Overview — Actual / Planned</div>
+    <table id="prodTable">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Mon 10/5</th>
+          <th class="today-head">▼ Tue 10/6</th>
+          <th>Wed 10/7</th>
+          <th>Thu 10/8</th>
+          <th>Fri 10/9</th>
+          <th>CW41</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AGX</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td class="today-cell" contenteditable="true">0 / 0</td>
+          <td contenteditable="true">0 / 1</td>
+          <td contenteditable="true">0 / 2</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td><strong contenteditable="true">0 / 3</strong></td>
+        </tr>
+        <tr>
+          <td>Board</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td class="today-cell" contenteditable="true">0 / 0</td>
+          <td contenteditable="true">0 / 1</td>
+          <td contenteditable="true">0 / 2</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td><strong contenteditable="true">0 / 3</strong></td>
+        </tr>
+        <tr>
+          <td>Assembly</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td class="today-cell" contenteditable="true">0 / 0</td>
+          <td contenteditable="true">0 / 1</td>
+          <td contenteditable="true">0 / 2</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td><strong contenteditable="true">0 / 3</strong></td>
+        </tr>
+        <tr>
+          <td>Final Testing</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td class="today-cell" contenteditable="true">0 / 0</td>
+          <td contenteditable="true">0 / 1</td>
+          <td contenteditable="true">0 / 2</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td><strong contenteditable="true">0 / 3</strong></td>
+        </tr>
+        <tr>
+          <td>Pack Out</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td class="today-cell" contenteditable="true">0 / 0</td>
+          <td contenteditable="true">0 / 1</td>
+          <td contenteditable="true">0 / 2</td>
+          <td><span class="dim" contenteditable="true">0 / 0</span></td>
+          <td><strong contenteditable="true">0 / 3</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.7rem; color:#999; margin-top:6px;">
+      Click any cell to edit · Values: Actual / Planned · ▼ = Current day
+    </p>
+  </div>
+
+  <!-- MAIN LIMITERS -->
+  <div class="section">
+    <div class="section-title">Main Limiters</div>
+    <table class="lim-table" id="limTable">
+      <thead>
+        <tr>
+          <th style="width:9%">Crit.</th>
+          <th style="width:28%">Issue</th>
+          <th style="width:30%">Action</th>
+          <th style="width:18%">Owner</th>
+          <th style="width:12%">Due</th>
+          <th style="width:3%"></th>
+        </tr>
+      </thead>
+      <tbody id="limBody">
+        <tr id="noLimiters">
+          <td colspan="6" class="no-issues">No limiters reported — click "+ Limiter" to add</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DAILY NOTES -->
+  <div class="section">
+    <div class="section-title">Daily Notes</div>
+    <div class="notes-box" id="notesBox">
+      <div class="n-entry">
+        <span class="n-date">[2026-10-06]</span>
+        <span class="n-text" contenteditable="true">Pilot production commenced. First unit (MES: XXXX) completed. Team confirmed CW41 target of 3 units. No blockers identified.</span>
+        <button class="row-del" onclick="this.parentElement.remove()">×</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="section">
+    <div class="section-title">Legend</div>
+    <table class="leg-table">
+      <thead>
+        <tr>
+          <th style="width:10%">Level</th>
+          <th style="width:30%">Safety</th>
+          <th style="width:30%">Quality</th>
+          <th style="width:30%">Delivery</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="p-badge p1">P1</span></td>
+          <td>Operators may be endangered</td>
+          <td>Safety / compliance issue</td>
+          <td>No Build / Line Down</td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td>—</td>
+          <td>Failure of primary function</td>
+          <td>Build Delay &gt; 6h</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="section">
+    <div class="section-title">Resources</div>
+    <ul class="res-list" id="resList">
+      <li contenteditable="true">· Daily Meeting Notes</li>
+      <li contenteditable="true">· MES Build Records (XXXX)</li>
+      <li contenteditable="true">· CW41 / CW42 Production Plan</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Fauna Sprout Robot · Pilot Production · CW41 · Confidential
+  </div>
+
+</div>
+
+<script>
+  // ── STATUS CYCLING ──
+  function cycleStatus(el) {
+    var states = el.getAttribute('data-states').split(',');
+    var colors = el.getAttribute('data-colors').split(',');
+    var label = el.querySelector('.s-label');
+    var dot = el.querySelector('.ind');
+    var idx = states.indexOf(label.textContent);
+    var next = (idx + 1) % states.length;
+    label.textContent = states[next];
+    dot.className = 'ind ' + colors[next];
+  }
+
+  // ── ADD NOTE ──
+  function addNote() {
+    var today = new Date().toISOString().split('T')[0];
+    var box = document.getElementById('notesBox');
+    var entry = document.createElement('div');
+    entry.className = 'n-entry';
+    entry.innerHTML = '<span class="n-date">[' + today + ']</span>' +
+      '<span class="n-text" contenteditable="true">Enter notes here...</span>' +
+      ' <button class="row-del" onclick="this.parentElement.remove()">×</button>';
+    box.insertBefore(entry, box.firstChild);
+    entry.querySelector('.n-text').focus();
+  }
+
+  // ── ADD LIMITER ──
+  function addLimiter() {
+    var noRow = document.getElementById('noLimiters');
+    if (noRow) noRow.remove();
+    var body = document.getElementById('limBody');
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><span class="p-badge p1" onclick="togglePriority(this)" style="cursor:pointer">P1</span></td>' +
+      '<td contenteditable="true">Describe issue...</td>' +
+      '<td contenteditable="true">Action required...</td>' +
+      '<td contenteditable="true">Owner</td>' +
+      '<td contenteditable="true">Date</td>' +
+      '<td><button class="row-del" onclick="removeRow(this)">×</button></td>';
+    body.appendChild(tr);
+    tr.querySelectorAll('td')[1].focus();
+  }
+
+  function togglePriority(el) {
+    if (el.textContent === 'P1') {
+      el.textContent = 'P2';
+      el.className = 'p-badge p2';
+    } else {
+      el.textContent = 'P1';
+      el.className = 'p-badge p1';
+    }
+  }
+
+  function removeRow(btn) {
+    var tr = btn.closest('tr');
+    tr.remove();
+    var body = document.getElementById('limBody');
+    if (body.children.length === 0) {
+      var empty = document.createElement('tr');
+      empty.id = 'noLimiters';
+      empty.innerHTML = '<td colspan="6" class="no-issues">No limiters reported</td>';
+      body.appendChild(empty);
+    }
+  }
+
+  // ── ADD EXEC BULLET ──
+  function addExecBullet() {
+    var list = document.getElementById('execList');
+    var li = document.createElement('li');
+    li.innerHTML = '<span contenteditable="true">New item...</span> <button class="row-del" onclick="this.parentElement.remove()">×</button>';
+    list.appendChild(li);
+    li.querySelector('span').focus();
+  }
+
+  // ── SAVE TO LOCAL STORAGE ──
+  function saveData() {
+    var content = document.getElementById('reportContent').innerHTML;
+    localStorage.setItem('fauna_report', content);
+    showStatus('Saved');
+  }
+
+  // ── LOAD FROM LOCAL STORAGE ──
+  function loadData() {
+    var saved = localStorage.getItem('fauna_report');
+    if (saved) {
+      document.getElementById('reportContent').innerHTML = saved;
+      showStatus('Loaded from save');
+    }
+  }
+
+  // ── EXPORT AS STANDALONE HTML ──
+  function exportHTML() {
+    var clone = document.documentElement.cloneNode(true);
+    var toolbar = clone.querySelector('.toolbar');
+    if (toolbar) toolbar.remove();
+    // Remove all delete buttons and contenteditable
+    var dels = clone.querySelectorAll('.row-del');
+    dels.forEach(function(d) { d.remove(); });
+    var editables = clone.querySelectorAll('[contenteditable]');
+    editables.forEach(function(e) { e.removeAttribute('contenteditable'); });
+    // Remove script
+    var scripts = clone.querySelectorAll('script');
+    scripts.forEach(function(s) { s.remove(); });
+    // Remove toolbar CSS body padding
+    var body = clone.querySelector('body');
+    body.style.paddingTop = '32px';
+
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([html], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'fauna-status-' + new Date().toISOString().split('T')[0] + '.html';
+    a.click();
+  }
+
+  function showStatus(msg) {
+    var el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(function() { el.classList.remove('show'); }, 2000);
+  }
+
+  // ── AUTO-SAVE on changes ──
+  document.addEventListener('input', function() {
+    clearTimeout(window._autoSave);
+    window._autoSave = setTimeout(function() { saveData(); }, 2000);
+  });
+
+  // ── KEYBOARD SHORTCUT: Ctrl+S ──
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      saveData();
+    }
+  });
+
+  // ── LOAD ON START ──
+  loadData();
+</script>
+
+</body>
+</html>
+
