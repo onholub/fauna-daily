@@ -7,13 +7,11 @@
 <title>Fauna Sprout Robot — Production Status</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
     background: #fff; color: #1a1a1a; padding: 0;
     font-size: 13px; line-height: 1.5;
   }
-
   .container { max-width: 1000px; margin: 0 auto; padding: 32px 40px; }
 
   /* ── TOOLBAR ── */
@@ -47,20 +45,17 @@
   .header-right { text-align: right; font-size: 0.78rem; color: #444; line-height: 1.6; }
   .header-right strong { color: #111; }
 
-  /* ── SECTION ── */
-  .section { margin-bottom: 22px; }
+  .section { margin-bottom: 24px; }
   .section-title {
     font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 1.2px; color: #111; padding-bottom: 6px;
-    border-bottom: 1px solid #ccc; margin-bottom: 10px;
+    border-bottom: 1px solid #ccc; margin-bottom: 12px;
   }
 
-  /* ── EDITABLE ── */
   [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.15s; }
   [contenteditable="true"]:hover { background: #f5f5f0; }
   [contenteditable="true"]:focus { background: #fdfaf0; box-shadow: inset 0 0 0 1px #b8860b; }
 
-  /* ── EXEC LIST ── */
   .exec-list { list-style: none; padding: 0; }
   .exec-list li {
     padding: 5px 0 5px 14px; position: relative;
@@ -69,107 +64,232 @@
   }
   .exec-list li::before { content: '–'; position: absolute; left: 0; color: #666; font-weight: 700; }
 
-  /* ── TABLES ── */
-  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  th {
-    background: #222; color: #fff; padding: 7px 10px; text-align: center;
-    font-weight: 600; font-size: 0.73rem; letter-spacing: 0.4px; text-transform: uppercase;
-  }
-  th:first-child { text-align: left; }
-  td {
-    padding: 7px 10px; text-align: center; border-bottom: 1px solid #e5e5e5;
-    font-family: monospace; font-size: 0.8rem;
-  }
-  td:first-child { text-align: left; font-family: system-ui, sans-serif; font-weight: 600; color: #222; }
-  tr:nth-child(even) { background: #fafafa; }
-  .dim { color: #bbb; }
+  /* ═══════════════════════════════════
+     PRODUCTION DASHBOARD
+  ═══════════════════════════════════ */
 
-  .today-head {
-    background: #000 !important; border-left: 3px solid #b8860b;
-    border-right: 3px solid #b8860b; color: #fff; font-weight: 700;
+  /* ── TOP KPI ROW ── */
+  .kpi-row {
+    display: flex; gap: 16px; margin-bottom: 20px;
   }
-  .today-cell {
-    background: #fdf8e8 !important; border-left: 3px solid #b8860b;
-    border-right: 3px solid #b8860b; font-weight: 700; color: #111;
+  .kpi-box {
+    flex: 1; background: #fafafa; border: 1px solid #e5e5e5;
+    border-radius: 6px; padding: 12px 16px; text-align: center;
+  }
+  .kpi-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; color: #888; font-weight: 600; }
+  .kpi-value { font-size: 1.6rem; font-weight: 800; font-family: monospace; color: #111; margin: 2px 0; }
+  .kpi-sub { font-size: 0.7rem; color: #999; }
+  .kpi-box.kpi-green { border-bottom: 3px solid #1a7a2e; }
+  .kpi-box.kpi-red { border-bottom: 3px solid #b91c1c; }
+  .kpi-box.kpi-neutral { border-bottom: 3px solid #ccc; }
+
+  /* ── DAILY BAR CHART ── */
+  .chart-area {
+    display: flex; gap: 0; align-items: flex-end;
+    height: 140px; padding: 0 0 0 0;
+    border-bottom: 2px solid #222;
+    margin-bottom: 4px;
+    position: relative;
   }
 
-  /* ── CONDITIONAL: MET / NOT MET ── */
-  td.met { color: #1a7a2e; font-weight: 700; }
-  td.met::after { content: ' ✓'; font-size: 0.7rem; }
-  td.notmet { color: #b91c1c; font-weight: 700; }
-  td.today-cell.met { color: #1a7a2e; }
-  td.today-cell.notmet { color: #b91c1c; }
+  /* Y-axis gridlines */
+  .chart-area::before {
+    content: ''; position: absolute; left: 0; right: 0;
+    top: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent, transparent calc(100% / 3 - 1px),
+      #f0f0f0 calc(100% / 3 - 1px), #f0f0f0 calc(100% / 3)
+    );
+    pointer-events: none;
+  }
+
+  .chart-day {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    position: relative; z-index: 1;
+    padding: 0 6px;
+  }
+
+  .bar-group {
+    display: flex; gap: 3px; align-items: flex-end; width: 100%;
+    justify-content: center;
+  }
+
+  .bar {
+    width: 22px; border-radius: 3px 3px 0 0;
+    transition: height 0.3s;
+    min-height: 0;
+    position: relative;
+  }
+
+  .bar-planned {
+    background: #e0e0e0; border: 1px solid #ccc; border-bottom: none;
+  }
+
+  .bar-actual {
+    background: #1a7a2e;
+  }
+
+  .bar-actual.behind { background: #b91c1c; }
+  .bar-actual.zero { background: transparent; border: 1px dashed #ddd; border-bottom: none; min-height: 2px; }
+
+  .bar-val {
+    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+    font-size: 0.65rem; font-weight: 700; font-family: monospace;
+    white-space: nowrap; color: #555;
+  }
+
+  .chart-labels {
+    display: flex; gap: 0;
+  }
+
+  .chart-label {
+    flex: 1; text-align: center;
+    font-size: 0.68rem; font-weight: 600; color: #888;
+    padding: 6px 0 0 0;
+  }
+
+  .chart-label.cl-today {
+    color: #111; font-weight: 800;
+    background: #fdf8e8; border-left: 2px solid #b8860b;
+    border-right: 2px solid #b8860b;
+    border-bottom: 2px solid #b8860b;
+    border-radius: 0 0 4px 4px;
+    margin: 0 -1px; padding: 6px 1px 4px 1px;
+  }
+
+  .chart-legend {
+    display: flex; gap: 16px; margin-top: 6px; font-size: 0.68rem; color: #999;
+    align-items: center;
+  }
+  .cl-item { display: flex; align-items: center; gap: 4px; }
+  .cl-swatch { width: 12px; height: 8px; border-radius: 2px; }
+
+  /* ── STAGE PROGRESS BARS ── */
+  .stage-grid {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-top: 16px;
+  }
+
+  .stage-row {
+    display: grid; grid-template-columns: 100px 1fr 50px;
+    align-items: center; gap: 10px;
+  }
+
+  .stage-name { font-size: 0.78rem; font-weight: 700; color: #333; }
+
+  .prog-track {
+    height: 18px; background: #f0f0f0; border-radius: 9px;
+    overflow: hidden; position: relative;
+  }
+
+  .prog-fill {
+    height: 100%; border-radius: 9px;
+    transition: width 0.4s; position: absolute; left: 0; top: 0;
+  }
+
+  .prog-fill.pf-green { background: #1a7a2e; }
+  .prog-fill.pf-red { background: #b91c1c; }
+  .prog-fill.pf-zero { background: transparent; }
+
+  .prog-target {
+    position: absolute; top: 0; bottom: 0; width: 2px;
+    background: #222; z-index: 2;
+  }
+
+  .prog-target::after {
+    content: attr(data-label);
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    font-size: 0.6rem; color: #888; white-space: nowrap; font-weight: 600;
+  }
+
+  .stage-count {
+    font-family: monospace; font-size: 0.82rem; font-weight: 700;
+    text-align: right; color: #222;
+  }
+
+  .sc-met { color: #1a7a2e; }
+  .sc-behind { color: #b91c1c; }
+
+  /* ── EDITABLE MINI TABLE (hidden by default) ── */
+  details.data-edit { margin-top: 12px; }
+  details.data-edit summary {
+    font-size: 0.68rem; color: #aaa; border: none; padding: 0; margin: 0;
+    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
+    border-bottom: none;
+  }
+  details.data-edit summary::before { content: '▸ '; color: #ccc; }
+  details.data-edit[open] summary::before { content: '▾ '; }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 8px; }
+  .data-table th {
+    background: #f5f5f5; color: #666; padding: 5px 8px;
+    text-align: center; font-weight: 600; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    border-bottom: 1px solid #ddd;
+  }
+  .data-table th:first-child { text-align: left; }
+  .data-table td {
+    padding: 5px 8px; text-align: center; border-bottom: 1px solid #f0f0f0;
+    font-family: monospace;
+  }
+  .data-table td:first-child { text-align: left; font-family: system-ui, sans-serif; font-weight: 600; }
+  .data-table td[contenteditable="true"]:focus { background: #fdfaf0; box-shadow: inset 0 0 0 1px #b8860b; }
+
+  .dt-today { background: #fdf8e8 !important; }
 
   /* ── LIMITERS ── */
-  .lim-table th { background: #444; }
-  .lim-table td { font-family: system-ui, sans-serif; text-align: left; vertical-align: top; }
-  .lim-table .no-issues { color: #999; font-style: italic; text-align: center; padding: 12px; }
-
-  .p-badge {
-    display: inline-block; padding: 1px 7px; border-radius: 3px;
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px;
-    font-family: monospace; cursor: pointer;
+  .lim-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .lim-table th {
+    background: #444; color: #fff; padding: 7px 10px; text-align: left;
+    font-weight: 600; font-size: 0.73rem; letter-spacing: 0.4px; text-transform: uppercase;
   }
+  .lim-table th:first-child { border-radius: 4px 0 0 0; }
+  .lim-table th:last-child { border-radius: 0 4px 0 0; }
+  .lim-table td { padding: 7px 10px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+  .lim-table tr:nth-child(even) { background: #fafafa; }
+  .lim-table .no-issues { color: #999; font-style: italic; text-align: center; padding: 12px; }
+  .p-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; font-family: monospace; cursor: pointer; }
   .p1 { background: #fde8e8; color: #991b1b; border: 1px solid #d4a0a0; }
   .p2 { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
-
-  /* ── INLINE LEGEND ── */
   .legend-inline { margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7; }
   .legend-inline .p-badge { font-size: 0.65rem; padding: 0px 5px; vertical-align: middle; cursor: default; }
 
-  /* ── DETAILS / DAILY NOTES ── */
-  details { margin-bottom: 0; }
-  summary {
+  details.notes-detail { margin-bottom: 0; }
+  details.notes-detail > summary {
     font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 1.2px; color: #111; padding-bottom: 6px;
     border-bottom: 1px solid #ccc; margin-bottom: 10px;
     cursor: pointer; user-select: none; list-style: none;
   }
-  summary::-webkit-details-marker { display: none; }
-  summary::before { content: '▸ '; color: #999; font-size: 0.8rem; }
-  details[open] summary::before { content: '▾ '; }
-
-  .notes-box {
-    background: #fafafa; border: 1px solid #ddd; border-radius: 4px;
-    padding: 12px 14px; min-height: 40px; font-size: 0.82rem;
-    color: #333; line-height: 1.6;
-  }
+  details.notes-detail > summary::-webkit-details-marker { display: none; }
+  details.notes-detail > summary::before { content: '▸ '; color: #999; font-size: 0.8rem; }
+  details.notes-detail[open] > summary::before { content: '▾ '; }
+  .notes-box { background: #fafafa; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; font-size: 0.82rem; color: #333; line-height: 1.6; }
   .n-entry { padding: 4px 0; border-bottom: 1px solid #eee; display: flex; align-items: baseline; gap: 4px; }
   .n-entry:last-child { border-bottom: none; }
   .n-date { font-size: 0.7rem; color: #888; font-weight: 700; font-family: monospace; white-space: nowrap; }
 
-  /* ── DELETE BTN ── */
-  .x-del {
-    background: none; border: none; color: #ccc; cursor: pointer;
-    font-size: 0.85rem; padding: 0 4px; font-family: system-ui, sans-serif;
-    flex-shrink: 0; margin-left: auto;
-  }
+  .x-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 0.85rem; padding: 0 4px; flex-shrink: 0; margin-left: auto; }
   .x-del:hover { color: #b91c1c; }
 
-  /* ── INLINE RESOURCES ── */
-  .resources-inline {
-    font-size: 0.7rem; color: #888; margin-top: 12px;
-    padding-top: 8px; border-top: 1px solid #eee;
-  }
+  .resources-inline { font-size: 0.7rem; color: #888; margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee; }
+  .footer { text-align: center; font-size: 0.7rem; color: #999; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
 
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center; font-size: 0.7rem; color: #999;
-    margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd;
-  }
+  #dataStore { display: none; }
 
   @media print {
     .toolbar { display: none !important; }
-    body { padding: 0; }
     .container { padding: 16px; }
     [contenteditable="true"]:hover { background: transparent; }
     .x-del { display: none; }
+    details.data-edit { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- TOOLBAR -->
 <div class="toolbar" id="toolbar">
   <span class="toolbar-title">EDIT MODE</span>
   <button class="tb tb-save" id="btnSave">Save</button>
@@ -180,10 +300,8 @@
   <span id="statusMsg"></span>
 </div>
 
-<!-- REPORT -->
 <div class="container" id="report">
 
-  <!-- HEADER -->
   <div class="header">
     <div>
       <h1>Fauna Sprout Robot — Pilot Production Status</h1>
@@ -207,37 +325,37 @@
 
   <!-- PRODUCTION OVERVIEW -->
   <div class="section">
-    <div class="section-title">Production Overview — Actual / Planned</div>
-    <table id="prodTable">
-      <thead>
-        <tr>
-          <th>Stage</th>
-          <th>Mon 10/5</th>
-          <th class="today-head">▼ TODAY Tue 10/6</th>
-          <th>Wed 10/7</th>
-          <th>Thu 10/8</th>
-          <th>Fri 10/9</th>
-          <th>CW41</th>
-        </tr>
-      </thead>
-      <tbody id="prodBody">
-        <tr><td>AGX</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
-        <tr><td>Board</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
-        <tr><td>Assembly</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
-        <tr><td>Final Testing</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
-        <tr><td>Pack Out</td><td contenteditable="true">0 / 0</td><td class="today-cell" contenteditable="true">0 / 0</td><td contenteditable="true">0 / 1</td><td contenteditable="true">0 / 2</td><td contenteditable="true">0 / 0</td><td contenteditable="true">0 / 3</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.7rem;color:#999;margin-top:6px;">Click cell to edit · Format: Actual / Planned · Green = on target · Red = behind</p>
+    <div class="section-title">Production Overview</div>
+
+    <!-- KPI ROW -->
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <!-- BAR CHART -->
+    <div class="chart-area" id="chartArea"></div>
+    <div class="chart-labels" id="chartLabels"></div>
+    <div class="chart-legend">
+      <div class="cl-item"><span class="cl-swatch" style="background:#1a7a2e"></span> Actual</div>
+      <div class="cl-item"><span class="cl-swatch" style="background:#e0e0e0;border:1px solid #ccc"></span> Planned</div>
+      <div class="cl-item"><span class="cl-swatch" style="background:#b91c1c"></span> Behind</div>
+    </div>
+
+    <!-- STAGE PROGRESS -->
+    <div class="stage-grid" id="stageGrid"></div>
+
+    <!-- EDITABLE DATA (collapsed) -->
+    <details class="data-edit">
+      <summary>Edit Raw Data</summary>
+      <table class="data-table" id="dataTable"></table>
+    </details>
   </div>
+
+  <textarea id="dataStore">{"stages":["AGX","Board","Assembly","Final Testing","Pack Out"],"days":["Mon 10/5","Tue 10/6","Wed 10/7","Thu 10/8","Fri 10/9"],"todayIdx":1,"weekTarget":3,"planned":[[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0]],"actual":[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]}</textarea>
 
   <!-- MAIN LIMITERS -->
   <div class="section">
     <div class="section-title">Main Limiters</div>
     <table class="lim-table">
-      <thead>
-        <tr><th style="width:9%">Crit.</th><th style="width:27%">Issue</th><th style="width:29%">Action</th><th style="width:17%">Owner</th><th style="width:12%">Due</th><th style="width:6%"></th></tr>
-      </thead>
+      <thead><tr><th style="width:9%">Crit.</th><th style="width:27%">Issue</th><th style="width:29%">Action</th><th style="width:17%">Owner</th><th style="width:12%">Due</th><th style="width:6%"></th></tr></thead>
       <tbody id="limBody">
         <tr id="noLim"><td colspan="6" class="no-issues">No limiters — click "+ Limiter" to add</td></tr>
       </tbody>
@@ -249,25 +367,21 @@
     </div>
   </div>
 
-  <!-- DAILY NOTES (collapsible) -->
+  <!-- DAILY NOTES -->
   <div class="section">
-    <details>
+    <details class="notes-detail">
       <summary>Daily Notes</summary>
       <div class="notes-box" id="notesBox">
         <div class="n-entry">
           <span class="n-date">[2026-10-06]</span>
-          <span contenteditable="true" style="flex:1">Pilot production commenced. First unit (MES: XXXX) completed. Team confirmed CW41 target of 3 units. No blockers identified.</span>
+          <span contenteditable="true" style="flex:1">Pilot production commenced. First unit (MES: XXXX) completed. Team confirmed CW41 target of 3 units. No blockers.</span>
           <button class="x-del">×</button>
         </div>
       </div>
     </details>
   </div>
 
-  <!-- INLINE RESOURCES -->
-  <div class="resources-inline" contenteditable="true">
-    Resources: Daily Meeting Notes · MES Build Records (XXXX) · CW41/CW42 Production Plan
-  </div>
-
+  <div class="resources-inline" contenteditable="true">Resources: Daily Meeting Notes · MES Build Records (XXXX) · CW41/CW42 Production Plan</div>
   <div class="footer">Fauna Sprout Robot · Pilot Production · CW41 · Confidential</div>
 </div>
 
@@ -275,78 +389,176 @@
 (function(){
   function $(id){ return document.getElementById(id); }
   function flash(msg){ var m=$('statusMsg'); m.textContent=msg; m.classList.add('show'); setTimeout(function(){ m.classList.remove('show'); },2000); }
-  function today(){ return new Date().toISOString().split('T')[0]; }
+  function todayStr(){ return new Date().toISOString().split('T')[0]; }
+  function getData(){ try{ return JSON.parse($('dataStore').value); }catch(e){ return null; } }
+  function setData(d){ $('dataStore').value=JSON.stringify(d); }
 
-  /* ── CONDITIONAL FORMATTING ── */
-  function evalCell(td){
-    if(!td || td.cellIndex===0) return; /* skip stage name column */
-    var txt=td.textContent.trim();
-    var parts=txt.split('/');
-    /* remove old classes */
-    td.classList.remove('met','notmet');
-    if(parts.length!==2) return;
-    var actual=parseInt(parts[0].trim(),10);
-    var planned=parseInt(parts[1].trim(),10);
-    if(isNaN(actual)||isNaN(planned)) return;
-    if(planned===0 && actual===0) return; /* 0/0 = no target, neutral */
-    if(actual>=planned){ td.classList.add('met'); }
-    else{ td.classList.add('notmet'); }
+  var BAR_MAX = 3; /* max units for bar scale — auto-adjusts */
+
+  function render(){
+    var d=getData(); if(!d) return;
+    var stages=d.stages, days=d.days, ti=d.todayIdx, planned=d.planned, actual=d.actual;
+
+    /* compute totals */
+    var dailyPlanned=[], dailyActual=[];
+    for(var di=0;di<days.length;di++){
+      var sp=0, sa=0;
+      for(var si=0;si<stages.length;si++){ sp+=planned[si][di]; sa+=actual[si][di]; }
+      dailyPlanned.push(sp); dailyActual.push(sa);
+    }
+
+    var cumPlanned=[], cumActual=[], cp=0, ca=0;
+    for(var di=0;di<days.length;di++){
+      cp+=dailyPlanned[di]; ca+=dailyActual[di];
+      cumPlanned.push(cp); cumActual.push(ca);
+    }
+
+    var totalPlanned=cumPlanned[days.length-1]||1;
+    var totalActual=cumActual[ti]||0;
+    var weekTarget=d.weekTarget||totalPlanned;
+
+    /* find bar max */
+    var maxBar=1;
+    for(var di=0;di<days.length;di++){ maxBar=Math.max(maxBar,dailyPlanned[di],dailyActual[di]); }
+    BAR_MAX=maxBar;
+
+    /* ── KPI ROW ── */
+    var onTrack=totalActual>=cumPlanned[ti];
+    var pct=weekTarget>0?Math.round((totalActual/weekTarget)*100):0;
+
+    var completedStages=0;
+    for(var si=0;si<stages.length;si++){
+      var sa=0,sp=0;
+      for(var di=0;di<=ti;di++){ sa+=actual[si][di]; sp+=planned[si][di]; }
+      if(sp>0&&sa>=sp) completedStages++;
+    }
+
+    $('kpiRow').innerHTML=
+      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
+        '<div class="kpi-label">Units Built</div>'+
+        '<div class="kpi-value">'+totalActual+' / '+weekTarget+'</div>'+
+        '<div class="kpi-sub">CW41 Target · '+pct+'%</div>'+
+      '</div>'+
+      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
+        '<div class="kpi-label">Status</div>'+
+        '<div class="kpi-value" style="font-size:1.1rem;">'+(onTrack?'ON TRACK':'BEHIND')+'</div>'+
+        '<div class="kpi-sub">vs. cumulative plan through today</div>'+
+      '</div>'+
+      '<div class="kpi-box kpi-neutral">'+
+        '<div class="kpi-label">Stages on Target</div>'+
+        '<div class="kpi-value">'+completedStages+' / '+stages.length+'</div>'+
+        '<div class="kpi-sub">through '+days[ti]+'</div>'+
+      '</div>';
+
+    /* ── BAR CHART ── */
+    var chartH=140;
+    var chartHTML='';
+    for(var di=0;di<days.length;di++){
+      var pH=BAR_MAX>0?(dailyPlanned[di]/BAR_MAX)*chartH:0;
+      var aH=BAR_MAX>0?(dailyActual[di]/BAR_MAX)*chartH:0;
+      var behind=di<=ti&&dailyActual[di]<dailyPlanned[di]&&dailyPlanned[di]>0;
+      var isZero=dailyActual[di]===0&&dailyPlanned[di]>0;
+
+      chartHTML+='<div class="chart-day">';
+      chartHTML+='<div class="bar-group">';
+      chartHTML+='<div class="bar bar-planned" style="height:'+pH+'px">'+(dailyPlanned[di]>0?'<span class="bar-val" style="color:#aaa">'+dailyPlanned[di]+'</span>':'')+'</div>';
+      if(isZero&&di<=ti){
+        chartHTML+='<div class="bar bar-actual behind" style="height:2px"><span class="bar-val" style="color:#b91c1c">0</span></div>';
+      } else {
+        chartHTML+='<div class="bar bar-actual'+(behind?' behind':'')+(dailyActual[di]===0?' zero':'')+'" style="height:'+aH+'px">'+(dailyActual[di]>0?'<span class="bar-val">'+dailyActual[di]+'</span>':'')+'</div>';
+      }
+      chartHTML+='</div></div>';
+    }
+    $('chartArea').innerHTML=chartHTML;
+
+    /* ── CHART LABELS ── */
+    var labelsHTML='';
+    for(var di=0;di<days.length;di++){
+      labelsHTML+='<div class="chart-label'+(di===ti?' cl-today':'')+'">'+(di===ti?'&#9660; TODAY<br>':'')+days[di]+'</div>';
+    }
+    $('chartLabels').innerHTML=labelsHTML;
+
+    /* ── STAGE PROGRESS ── */
+    var sgHTML='';
+    for(var si=0;si<stages.length;si++){
+      var sa=0,sp=0;
+      for(var di=0;di<days.length;di++){ sa+=actual[si][di]; sp+=planned[si][di]; }
+      var pct2=sp>0?Math.round((sa/sp)*100):0;
+      var met=sp>0&&sa>=sp;
+      var cls=sp===0?'pf-zero':(met?'pf-green':'pf-red');
+      var scCls=sp===0?'':(met?' sc-met':' sc-behind');
+
+      sgHTML+='<div class="stage-row">';
+      sgHTML+='<div class="stage-name">'+stages[si]+'</div>';
+      sgHTML+='<div class="prog-track">';
+      sgHTML+='<div class="prog-fill '+cls+'" style="width:'+Math.min(pct2,100)+'%"></div>';
+      if(sp>0) sgHTML+='<div class="prog-target" style="left:100%" data-label="target: '+sp+'"></div>';
+      sgHTML+='</div>';
+      sgHTML+='<div class="stage-count'+scCls+'">'+sa+' / '+sp+'</div>';
+      sgHTML+='</div>';
+    }
+    $('stageGrid').innerHTML=sgHTML;
+
+    /* ── DATA TABLE ── */
+    var dtHTML='<thead><tr><th>Stage</th>';
+    for(var di=0;di<days.length;di++){
+      dtHTML+='<th'+(di===ti?' class="dt-today"':'')+'>'+days[di]+'</th>';
+    }
+    dtHTML+='</tr></thead><tbody>';
+    for(var si=0;si<stages.length;si++){
+      dtHTML+='<tr><td>'+stages[si]+'</td>';
+      for(var di=0;di<days.length;di++){
+        dtHTML+='<td'+(di===ti?' class="dt-today"':'')+' contenteditable="true" data-si="'+si+'" data-di="'+di+'">'+actual[si][di]+' / '+planned[si][di]+'</td>';
+      }
+      dtHTML+='</tr>';
+    }
+    dtHTML+='</tbody>';
+    $('dataTable').innerHTML=dtHTML;
   }
 
-  function evalAllCells(){
-    var rows=$('prodBody').querySelectorAll('tr');
-    rows.forEach(function(tr){
-      var cells=tr.querySelectorAll('td');
-      cells.forEach(function(td){ evalCell(td); });
-    });
-  }
+  render();
 
-  /* run on load */
-  evalAllCells();
-
-  /* run on edit within prod table */
-  $('prodTable').addEventListener('input', function(e){
-    var td=e.target.closest('td');
-    if(td) evalCell(td);
+  /* ── DATA TABLE EDIT ── */
+  $('dataTable').addEventListener('focusout', function(e){
+    var td=e.target; if(td.tagName!=='TD'||!td.hasAttribute('data-si')) return;
+    var d=getData(); if(!d) return;
+    var si=parseInt(td.getAttribute('data-si'));
+    var di=parseInt(td.getAttribute('data-di'));
+    var parts=td.textContent.trim().split('/');
+    if(parts.length===2){
+      var a=parseInt(parts[0].trim(),10); var p=parseInt(parts[1].trim(),10);
+      if(!isNaN(a)) d.actual[si][di]=a;
+      if(!isNaN(p)) d.planned[si][di]=p;
+      setData(d); render();
+    }
   });
 
-  /* also run on blur for clean-up */
-  $('prodTable').addEventListener('focusout', function(e){
-    var td=e.target.closest('td');
-    if(td) evalCell(td);
-  });
-
-  /* ── delegate delete ── */
+  /* ── delegates ── */
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('x-del')){
       var p=e.target.parentElement; if(p) p.remove();
       var lb=$('limBody');
-      if(lb && lb.children.length===0){
+      if(lb&&lb.children.length===0){
         var tr=document.createElement('tr'); tr.id='noLim';
         tr.innerHTML='<td colspan="6" class="no-issues">No limiters</td>';
         lb.appendChild(tr);
       }
     }
+    if(e.target.classList.contains('p-badge')&&!e.target.closest('.legend-inline')){
+      if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
+      else{ e.target.textContent='P1'; e.target.className='p-badge p1'; }
+    }
   });
 
-  /* ── priority toggle ── */
-  document.addEventListener('click', function(e){
-    if(!e.target.classList.contains('p-badge')||e.target.closest('.legend-inline')) return;
-    if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
-    else{ e.target.textContent='P1'; e.target.className='p-badge p1'; }
-  });
-
-  /* ── + Note ── */
   $('btnNote').addEventListener('click', function(){
-    var det=document.querySelector('details'); if(det) det.open=true;
+    var det=document.querySelector('details.notes-detail'); if(det) det.open=true;
     var box=$('notesBox');
     var d=document.createElement('div'); d.className='n-entry';
-    d.innerHTML='<span class="n-date">['+today()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><button class="x-del">\u00d7</button>';
-    box.insertBefore(d, box.firstChild);
+    d.innerHTML='<span class="n-date">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><button class="x-del">\u00d7</button>';
+    box.insertBefore(d,box.firstChild);
     d.querySelector('[contenteditable]').focus();
   });
 
-  /* ── + Limiter ── */
   $('btnLim').addEventListener('click', function(){
     var nl=$('noLim'); if(nl) nl.remove();
     var lb=$('limBody'), tr=document.createElement('tr');
@@ -354,44 +566,55 @@
     lb.appendChild(tr); tr.querySelectorAll('[contenteditable]')[0].focus();
   });
 
-  /* ── + Summary ── */
   $('btnExec').addEventListener('click', function(){
     var ul=$('execList'), li=document.createElement('li');
     li.innerHTML='<span contenteditable="true">New item...</span><button class="x-del">\u00d7</button>';
     ul.appendChild(li); li.querySelector('[contenteditable]').focus();
   });
 
-  /* ── Save / Load ── */
-  function save(){ try{ localStorage.setItem('fauna_v4',$('report').innerHTML); flash('Saved'); }catch(e){ flash('Save failed'); } }
-  $('btnSave').addEventListener('click', function(){ save(); });
+  function save(){
+    try{
+      localStorage.setItem('fauna_v6', JSON.stringify({
+        report: $('report').innerHTML,
+        data: $('dataStore').value
+      }));
+      flash('Saved');
+    }catch(e){ flash('Save failed'); }
+  }
+
+  $('btnSave').addEventListener('click', save);
+
   try{
-    var d=localStorage.getItem('fauna_v4');
-    if(d&&d.length>100){ $('report').innerHTML=d; evalAllCells(); }
+    var s=localStorage.getItem('fauna_v6');
+    if(s){
+      var parsed=JSON.parse(s);
+      if(parsed.report&&parsed.report.length>100){
+        $('report').innerHTML=parsed.report;
+        if(parsed.data) $('dataStore').value=parsed.data;
+        render();
+      }
+    }
   }catch(e){}
 
-  /* ── Auto-save ── */
   var t; document.addEventListener('input', function(){ clearTimeout(t); t=setTimeout(save,3000); });
-
-  /* ── Ctrl+S ── */
   document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); save(); } });
 
-  /* ── Export ── */
   $('btnExport').addEventListener('click', function(){
     var c=document.documentElement.cloneNode(true);
     var tb=c.querySelector('#toolbar'); if(tb) tb.remove();
     c.querySelectorAll('.x-del').forEach(function(d){ d.remove(); });
     c.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
-    c.querySelectorAll('.status-item').forEach(function(e){ e.style.cursor='default'; });
     c.querySelectorAll('script').forEach(function(s){ s.remove(); });
-    c.querySelectorAll('details').forEach(function(d){ d.setAttribute('open',''); });
+    c.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
+    var de=c.querySelector('details.data-edit'); if(de) de.remove();
+    var ds=c.querySelector('#dataStore'); if(ds) ds.remove();
     var b=new Blob(['<!DOCTYPE html>\n'+c.outerHTML],{type:'text/html'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-    a.download='fauna-status-'+today()+'.html'; a.click();
+    a.download='fauna-status-'+todayStr()+'.html'; a.click();
   });
 
 })();
 </script>
-
 </body>
 </html>
 
