@@ -12,50 +12,74 @@
     background: #fff; color: #1a1a1a; padding: 0; font-size: 13px; line-height: 1.5;
     display: flex; min-height: 100vh;
   }
+
+  /* ═══ LEFT HISTORY RAIL ═══ */
+  .hist-rail {
+    width: 54px; flex-shrink: 0; background: #1a1a1a;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 8px 0; overflow-y: auto; transition: width 0.2s;
+  }
+  .hist-rail.expanded { width: 200px; align-items: stretch; }
+
+  .hr-toggle {
+    background: #333; border: none; color: #888; width: 36px; height: 36px;
+    border-radius: 4px; font-size: 0.9rem; cursor: pointer;
+    margin-bottom: 8px; flex-shrink: 0;
+  }
+  .hist-rail.expanded .hr-toggle { width: auto; margin: 0 8px 8px 8px; font-size: 0.7rem; color: #aaa; }
+  .hr-toggle:hover { background: #444; color: #fff; }
+
+  .hr-title {
+    display: none; font-size: 0.65rem; font-weight: 700; color: #666;
+    text-transform: uppercase; letter-spacing: 1px; padding: 0 12px; margin-bottom: 6px;
+  }
+  .hist-rail.expanded .hr-title { display: block; }
+
+  .hr-date-group { margin-bottom: 2px; width: 100%; }
+  .hr-date-label {
+    font-size: 0.58rem; color: #555; text-align: center; padding: 4px 0 2px 0;
+    letter-spacing: 0.5px; font-weight: 700;
+  }
+  .hist-rail.expanded .hr-date-label { text-align: left; padding-left: 12px; font-size: 0.62rem; }
+
+  .hr-dot {
+    width: 32px; height: 32px; border-radius: 50%; background: #333;
+    border: 2px solid #444; margin: 2px auto; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem; color: #999; font-weight: 700; font-family: monospace;
+    transition: all 0.15s; position: relative;
+  }
+  .hr-dot:hover { background: #444; border-color: #b8860b; color: #fff; }
+  .hr-dot.active { background: #b8860b; border-color: #d4a017; color: #fff; }
+  .hr-dot .hr-tooltip {
+    display: none; position: absolute; left: 42px; top: 50%; transform: translateY(-50%);
+    background: #222; color: #ddd; padding: 4px 8px; border-radius: 3px;
+    font-size: 0.68rem; white-space: nowrap; z-index: 10; pointer-events: none;
+  }
+  .hr-dot:hover .hr-tooltip { display: block; }
+  .hist-rail.expanded .hr-dot .hr-tooltip { display: none !important; }
+
+  /* expanded entry */
+  .hr-entry-exp {
+    display: none; padding: 4px 10px; cursor: pointer;
+    transition: background 0.1s; border-radius: 3px; margin: 1px 6px;
+  }
+  .hist-rail.expanded .hr-entry-exp { display: flex; align-items: center; gap: 6px; }
+  .hist-rail.expanded .hr-dot { display: none; }
+  .hr-entry-exp:hover { background: #2a2a2a; }
+  .hr-entry-exp.active { background: #332800; border-left: 2px solid #b8860b; }
+  .hre-time { font-size: 0.65rem; color: #666; font-family: monospace; flex-shrink: 0; }
+  .hre-label { font-size: 0.72rem; color: #ccc; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hre-del {
+    background: none; border: none; color: #555; font-size: 0.7rem;
+    cursor: pointer; padding: 0 2px; opacity: 0; transition: opacity 0.15s;
+  }
+  .hr-entry-exp:hover .hre-del { opacity: 1; }
+  .hre-del:hover { color: #b91c1c; }
+
+  /* ═══ MAIN ═══ */
   .main-area { flex: 1; min-width: 0; }
   .container { max-width: 1000px; margin: 0 auto; padding: 32px 40px; }
-
-  /* WIKI SIDEBAR */
-  .wiki {
-    width: 280px; flex-shrink: 0; background: #fafafa;
-    border-left: 1px solid #e0e0e0; display: flex; flex-direction: column;
-    transition: width 0.2s; overflow: hidden;
-  }
-  .wiki.collapsed { width: 0; border-left: none; }
-  .wiki-header {
-    background: #222; color: #fff; padding: 10px 14px;
-    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.8px;
-    text-transform: uppercase; display: flex; align-items: center; gap: 8px;
-  }
-  .wiki-header span { flex: 1; }
-  .wiki-close { background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
-  .wiki-close:hover { color: #fff; }
-  .wiki-body { flex: 1; overflow-y: auto; padding: 0; }
-  .wiki-date {
-    font-size: 0.68rem; font-weight: 700; color: #888;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 10px 14px 4px 14px; border-bottom: 1px solid #eee; background: #f3f3f3;
-  }
-  .wiki-entry {
-    padding: 8px 14px; border-bottom: 1px solid #eee;
-    cursor: pointer; transition: background 0.1s;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .wiki-entry:hover { background: #f0f0e8; }
-  .wiki-entry.active { background: #fdf8e8; border-left: 3px solid #b8860b; }
-  .we-time { font-size: 0.68rem; color: #aaa; font-family: monospace; white-space: nowrap; flex-shrink: 0; }
-  .we-label { font-size: 0.76rem; color: #333; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .we-btns { display: flex; gap: 2px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
-  .wiki-entry:hover .we-btns { opacity: 1; }
-  .we-btn {
-    background: none; border: 1px solid #ddd; color: #aaa;
-    width: 18px; height: 18px; border-radius: 2px; font-size: 0.6rem;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-  }
-  .we-btn:hover { background: #fff; color: #333; border-color: #bbb; }
-  .we-btn.we-del:hover { background: #fde8e8; color: #b91c1c; border-color: #d4a0a0; }
-  .wiki-empty { padding: 24px 14px; text-align: center; color: #bbb; font-size: 0.78rem; font-style: italic; }
-  .wiki-footer { padding: 8px 14px; border-top: 1px solid #e0e0e0; background: #f5f5f5; font-size: 0.65rem; color: #aaa; text-align: center; }
 
   /* TOOLBAR */
   .toolbar {
@@ -75,8 +99,6 @@
   .tb-add:hover { background: #154360; }
   .tb-exp { background: #6b4c00; border-color: #6b4c00; }
   .tb-exp:hover { background: #573d00; }
-  .tb-hist { background: #4a235a; border-color: #4a235a; }
-  .tb-hist:hover { background: #3b1c48; }
   .tb-email { background: #1a5276; border-color: #1a5276; }
   .tb-email:hover { background: #154360; }
   .tb-png { background: #6b4c00; border-color: #6b4c00; }
@@ -94,12 +116,11 @@
   .save-dialog { background: #fff; border-radius: 8px; padding: 24px; width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
   .save-dialog h3 { font-size: 0.9rem; margin-bottom: 12px; }
   .save-dialog label { font-size: 0.75rem; font-weight: 600; color: #555; display: block; margin-bottom: 4px; }
-  .save-dialog input, .save-dialog textarea {
+  .save-dialog input {
     width: 100%; padding: 7px 10px; border: 1px solid #ccc;
-    border-radius: 4px; font-size: 0.82rem; margin-bottom: 12px;
-    font-family: system-ui, sans-serif;
+    border-radius: 4px; font-size: 0.82rem; margin-bottom: 12px; font-family: system-ui, sans-serif;
   }
-  .save-dialog input:focus, .save-dialog textarea:focus { outline: none; border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
+  .save-dialog input:focus { outline: none; border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
   .sd-btns { display: flex; gap: 8px; justify-content: flex-end; }
   .sd-btn {
     padding: 6px 18px; border-radius: 4px; font-size: 0.78rem;
@@ -169,7 +190,6 @@
   .ic:hover { background: #f0f0f0; color: #333; border-color: #bbb; }
   .ic.ic-del:hover { background: #fde8e8; color: #b91c1c; border-color: #d4a0a0; }
 
-  /* KPI */
   .kpi-row { display: flex; gap: 16px; margin-bottom: 18px; }
   .kpi-box {
     flex: 1; background: #fafafa; border: 1px solid #e5e5e5;
@@ -181,7 +201,6 @@
   .kpi-box.kpi-green { border-bottom: 3px solid #1a7a2e; }
   .kpi-box.kpi-red { border-bottom: 3px solid #b91c1c; }
 
-  /* PROD TABLE */
   .prod-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
   .prod-table th {
     background: #222; color: #fff; padding: 7px 10px; text-align: center;
@@ -205,31 +224,25 @@
   .cell-behind-bg { background: #fef2f2 !important; }
   .prod-note { font-size: 0.7rem; color: #999; margin-top: 6px; }
 
-  /* LIMITERS */
   .lim-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
   .lim-table th {
     background: #444; color: #fff; padding: 7px 10px; text-align: left;
-    font-weight: 600; font-size: 0.73rem; letter-spacing: 0.4px; text-transform: uppercase;
+    font-weight: 600; font-size: 0.7rem; letter-spacing: 0.4px; text-transform: uppercase;
   }
   .lim-table th:first-child { border-radius: 4px 0 0 0; }
   .lim-table th:last-child { border-radius: 0 4px 0 0; }
-  .lim-table td { padding: 7px 10px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+  .lim-table td { padding: 6px 8px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
   .lim-table tr:nth-child(even) { background: #fafafa; }
-  .lim-table .no-issues { color: #999; font-style: italic; text-align: center; padding: 12px; }
   .p-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; font-family: monospace; cursor: pointer; }
   .p1 { background: #fde8e8; color: #991b1b; border: 1px solid #d4a0a0; }
   .p2 { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
-
-  /* STATUS BADGES */
   .s-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.68rem; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
   .s-open { background: #fde8e8; color: #991b1b; border: 1px solid #d4a0a0; }
   .s-wip { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
   .s-done { background: #e8f5e9; color: #1a7a2e; border: 1px solid #a3d9a5; }
-
   .legend-inline { margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7; }
   .legend-inline .p-badge, .legend-inline .s-badge { font-size: 0.65rem; padding: 0px 5px; vertical-align: middle; cursor: default; }
 
-  /* NOTES */
   details.notes-detail { margin-bottom: 0; }
   details.notes-detail > summary {
     font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
@@ -246,8 +259,7 @@
   .n-date {
     font-size: 0.7rem; color: #888; font-weight: 700; font-family: monospace;
     white-space: nowrap; background: #f0f0f0; padding: 1px 5px;
-    border-radius: 3px; border: 1px solid #e0e0e0; flex-shrink: 0;
-    align-self: flex-start; margin-top: 2px;
+    border-radius: 3px; border: 1px solid #e0e0e0; flex-shrink: 0; align-self: flex-start; margin-top: 2px;
   }
   .n-entry span[contenteditable] { flex: 1; }
 
@@ -256,7 +268,7 @@
   #dataStore { display: none; }
 
   @media print {
-    .toolbar, .wiki, .save-overlay, .snapshot-banner { display: none !important; }
+    .toolbar, .hist-rail, .save-overlay, .snapshot-banner { display: none !important; }
     body { display: block; }
     .container { padding: 16px; }
     [contenteditable="true"]:hover { background: transparent; }
@@ -267,6 +279,14 @@
 </head>
 <body>
 
+<!-- LEFT HISTORY RAIL -->
+<div class="hist-rail" id="histRail">
+  <button class="hr-toggle" id="hrToggle" title="History">📋</button>
+  <div class="hr-title">Saved Snapshots</div>
+  <div id="histList"></div>
+</div>
+
+<!-- MAIN -->
 <div class="main-area">
 
 <div class="toolbar" id="toolbar">
@@ -278,12 +298,10 @@
   <button class="tb tb-exp" id="btnExport">⬇ HTML</button>
   <button class="tb tb-png" id="btnPng">📷 PNG</button>
   <button class="tb tb-email" id="btnEmail">✉ Email</button>
-  <button class="tb tb-hist" id="btnWiki">📋 History</button>
   <span id="statusMsg"></span>
 </div>
 
 <div class="container" id="reportWrap">
-
   <div class="snapshot-banner" id="snapBanner">
     <span id="snapLabel">Viewing snapshot: ...</span>
     <button class="sb-back" id="snapBack">← Back to Current</button>
@@ -324,23 +342,34 @@
   <div class="section">
     <div class="section-title" contenteditable="true">Main Limiters</div>
     <table class="lim-table">
-      <thead><tr><th style="width:6%">Crit.</th><th style="width:8%">Status</th><th style="width:24%">Issue</th><th style="width:24%">Action</th><th style="width:12%">Owner</th><th style="width:9%">Due</th><th style="width:17%"></th></tr></thead>
+      <thead><tr>
+        <th style="width:5%">Crit.</th>
+        <th style="width:7%">Status</th>
+        <th style="width:22%">Issue</th>
+        <th style="width:22%">Action</th>
+        <th style="width:11%">Owner</th>
+        <th style="width:9%">Opened</th>
+        <th style="width:9%">Due</th>
+        <th style="width:15%"></th>
+      </tr></thead>
       <tbody id="limBody">
         <tr>
           <td><span class="p-badge p2">P2</span></td>
           <td><span class="s-badge s-done">DONE</span></td>
-          <td contenteditable="true">Backplane swap (from Board) — connector testing failed, caused ~6h delay</td>
-          <td contenteditable="true">Reworked connector pinout; validated. Fauna sending calibrated test equipment for Fri.</td>
+          <td contenteditable="true">Backplane swap (from Board) — connector testing failed, ~6h delay</td>
+          <td contenteditable="true">Reworked connector pinout; validated. Fauna sending calibrated test equipment.</td>
           <td contenteditable="true">Board Team</td>
+          <td contenteditable="true">Oct 8</td>
           <td contenteditable="true">Oct 9</td>
           <td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>
         </tr>
         <tr>
           <td><span class="p-badge p2">P2</span></td>
           <td><span class="s-badge s-done">DONE</span></td>
-          <td contenteditable="true">Assembly zeroing table does not fit robot — required physical modification</td>
+          <td contenteditable="true">Assembly zeroing table does not fit robot — required modification</td>
           <td contenteditable="true">Table modified on-site, now operational. Verify fit on next unit.</td>
           <td contenteditable="true">Assembly Team</td>
+          <td contenteditable="true">Oct 8</td>
           <td contenteditable="true">Oct 9</td>
           <td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>
         </tr>
@@ -359,7 +388,7 @@
 
   <div class="section">
     <details class="notes-detail" open>
-      <summary contenteditable="false">Daily Notes</summary>
+      <summary>Daily Notes</summary>
       <div class="notes-box" id="notesBox">
         <div class="n-entry">
           <span class="n-date" contenteditable="true">[2026-10-08]</span>
@@ -399,23 +428,17 @@
 
 </div>
 
-<!-- WIKI -->
-<div class="wiki collapsed" id="wiki">
-  <div class="wiki-header"><span>📋 History</span><button class="wiki-close" id="wikiClose">×</button></div>
-  <div class="wiki-body" id="wikiBody"><div class="wiki-empty">No snapshots yet.</div></div>
-  <div class="wiki-footer">Snapshots in localStorage</div>
-</div>
-
 <script>
 (function(){
   function $(id){ return document.getElementById(id); }
   function flash(msg){ var m=$('statusMsg'); m.textContent=msg; m.classList.add('show'); setTimeout(function(){ m.classList.remove('show'); },2000); }
   function todayStr(){ return new Date().toISOString().split('T')[0]; }
   function nowTime(){ return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
+  function shortDate(d){ var p=d.split('-'); return p[1]+'/'+p[2]; }
   function getData(){ try{ return JSON.parse($('dataStore').value); }catch(e){ return null; } }
   function setData(d){ $('dataStore').value=JSON.stringify(d); }
 
-  var HIST_KEY='fauna_history', CURRENT_KEY='fauna_current';
+  var HIST_KEY='fauna_hist2', CURRENT_KEY='fauna_cur2';
   var viewingSnapshot=false;
 
   function getHistory(){ try{ return JSON.parse(localStorage.getItem(HIST_KEY))||[]; }catch(e){ return []; } }
@@ -429,7 +452,7 @@
     var h=getHistory();
     h.unshift({ id:Date.now(), date:todayStr(), time:nowTime(), label:label||'Snapshot', report:$('report').innerHTML, data:$('dataStore').value });
     if(h.length>50) h=h.slice(0,50);
-    saveHistory(h); saveCurrent(); renderWiki(); flash('Snapshot saved');
+    saveHistory(h); saveCurrent(); renderHist(); flash('Snapshot saved');
   }
 
   function loadSnapshot(id){
@@ -441,34 +464,54 @@
     render(); viewingSnapshot=true;
     $('snapBanner').classList.add('show');
     $('snapLabel').textContent='Viewing: '+snap.label+' ('+snap.date+' '+snap.time+')';
-    renderWiki(id);
+    renderHist(id);
   }
 
-  function backToCurrent(){ loadCurrent(); render(); viewingSnapshot=false; $('snapBanner').classList.remove('show'); renderWiki(); }
-  function deleteSnapshot(id){ var h=getHistory(); h=h.filter(function(s){ return s.id!==id; }); saveHistory(h); renderWiki(); }
+  function backToCurrent(){ loadCurrent(); render(); viewingSnapshot=false; $('snapBanner').classList.remove('show'); renderHist(); }
+  function deleteSnapshot(id){ var h=getHistory(); h=h.filter(function(s){ return s.id!==id; }); saveHistory(h); renderHist(); }
 
-  function renderWiki(activeId){
-    var h=getHistory(), body=$('wikiBody');
-    if(h.length===0){ body.innerHTML='<div class="wiki-empty">No snapshots yet.</div>'; return; }
+  function renderHist(activeId){
+    var h=getHistory(), el=$('histList');
+    if(h.length===0){ el.innerHTML=''; return; }
     var html='', lastDate='';
     for(var i=0;i<h.length;i++){
-      if(h[i].date!==lastDate){ lastDate=h[i].date; html+='<div class="wiki-date">'+lastDate+'</div>'; }
-      var ac=h[i].id===activeId?' active':'';
-      html+='<div class="wiki-entry'+ac+'" data-id="'+h[i].id+'"><span class="we-time">'+h[i].time+'</span><span class="we-label">'+h[i].label+'</span><div class="we-btns"><button class="we-btn we-load" title="Load">↩</button><button class="we-btn we-del" title="Delete">×</button></div></div>';
+      if(h[i].date!==lastDate){
+        lastDate=h[i].date;
+        html+='<div class="hr-date-group"><div class="hr-date-label">'+shortDate(lastDate)+'</div>';
+      }
+      var ac=h[i].id===activeId;
+      /* dot (collapsed) */
+      html+='<div class="hr-dot'+(ac?' active':'')+'" data-id="'+h[i].id+'" title="'+h[i].label+'">'+h[i].time.replace(/[^0-9:]/g,'').substring(0,5)+'<span class="hr-tooltip">'+h[i].time+' — '+h[i].label+'</span></div>';
+      /* expanded entry */
+      html+='<div class="hr-entry-exp'+(ac?' active':'')+'" data-id="'+h[i].id+'"><span class="hre-time">'+h[i].time+'</span><span class="hre-label">'+h[i].label+'</span><button class="hre-del" title="Delete">×</button></div>';
+
+      var nextDate=(i+1<h.length)?h[i+1].date:'';
+      if(nextDate!==lastDate) html+='</div>';
     }
-    body.innerHTML=html;
+    el.innerHTML=html;
   }
 
-  $('wikiBody').addEventListener('click', function(e){
-    var entry=e.target.closest('.wiki-entry'); if(!entry) return;
-    var id=parseInt(entry.getAttribute('data-id'));
-    if(e.target.closest('.we-del')){ deleteSnapshot(id); return; }
-    loadSnapshot(id);
+  $('histList').addEventListener('click', function(e){
+    var del=e.target.closest('.hre-del');
+    if(del){
+      var entry=del.closest('.hr-entry-exp');
+      if(entry) deleteSnapshot(parseInt(entry.getAttribute('data-id')));
+      return;
+    }
+    var dot=e.target.closest('.hr-dot');
+    var entry=e.target.closest('.hr-entry-exp');
+    var target=dot||entry;
+    if(target) loadSnapshot(parseInt(target.getAttribute('data-id')));
   });
-  $('snapBack').addEventListener('click', backToCurrent);
-  $('btnWiki').addEventListener('click', function(){ $('wiki').classList.toggle('collapsed'); });
-  $('wikiClose').addEventListener('click', function(){ $('wiki').classList.add('collapsed'); });
 
+  $('snapBack').addEventListener('click', backToCurrent);
+
+  /* RAIL TOGGLE */
+  $('hrToggle').addEventListener('click', function(){
+    $('histRail').classList.toggle('expanded');
+  });
+
+  /* SAVE DIALOG */
   $('btnSave').addEventListener('click', function(){ $('snapName').value=''; $('saveOverlay').classList.add('open'); $('snapName').focus(); });
   $('sdCancel').addEventListener('click', function(){ $('saveOverlay').classList.remove('open'); });
   $('sdConfirm').addEventListener('click', function(){ var l=$('snapName').value.trim()||'Snapshot'; $('saveOverlay').classList.remove('open'); saveSnapshot(l); });
@@ -476,16 +519,12 @@
 
   /* ── RENDER ── */
   function cellClass(a,p,di,ti){
-    if(p===0&&a===0) return 'cell-empty';
-    if(di>ti) return 'cell-future';
-    if(a>=p) return 'cell-met';
-    return 'cell-behind';
+    if(p===0&&a===0) return 'cell-empty'; if(di>ti) return 'cell-future';
+    if(a>=p) return 'cell-met'; return 'cell-behind';
   }
   function cellBg(a,p,di,ti){
-    if(p===0&&a===0) return '';
-    if(di>ti) return '';
-    if(a>=p) return ' cell-met-bg';
-    return ' cell-behind-bg';
+    if(p===0&&a===0) return ''; if(di>ti) return '';
+    if(a>=p) return ' cell-met-bg'; return ' cell-behind-bg';
   }
 
   function render(){
@@ -512,8 +551,7 @@
       for(var di=0;di<nd;di++){
         var a=actual[si][di], p=planned[si][di];
         var cc=cellClass(a,p,di,ti), bg=cellBg(a,p,di,ti);
-        var tdCls=(di===ti?'td-today':'')+bg;
-        html+='<td class="'+tdCls+'" contenteditable="true" data-si="'+si+'" data-di="'+di+'"><span class="'+cc+'">'+a+' / '+p+'</span></td>';
+        html+='<td class="'+(di===ti?'td-today':'')+bg+'" contenteditable="true" data-si="'+si+'" data-di="'+di+'"><span class="'+cc+'">'+a+' / '+p+'</span></td>';
       }
       html+='</tr>';
     }
@@ -521,15 +559,14 @@
     $('prodTable').innerHTML=html;
   }
 
-  loadCurrent(); render(); renderWiki();
+  loadCurrent(); render(); renderHist();
 
   /* TABLE EDIT */
   $('prodTable').addEventListener('focusout', function(e){
     var td=e.target.closest('td');
     if(!td||!td.hasAttribute('data-si')) return;
     var d=getData(); if(!d) return;
-    var si=parseInt(td.getAttribute('data-si'));
-    var di=parseInt(td.getAttribute('data-di'));
+    var si=parseInt(td.getAttribute('data-si')), di=parseInt(td.getAttribute('data-di'));
     var txt=td.textContent.trim().replace(/[^\d\/]/g,'');
     var parts=txt.split('/');
     if(parts.length===2){
@@ -545,12 +582,11 @@
     var btn=e.target.closest('.ic'); if(!btn) return;
     e.preventDefault(); e.stopPropagation();
     var item=btn.closest('li')||btn.closest('tr')||btn.closest('.n-entry');
-    if(!item) return;
-    var parent=item.parentElement;
+    if(!item) return; var parent=item.parentElement;
     if(btn.classList.contains('ic-del')){
       item.remove();
       var lb=$('limBody');
-      if(lb&&lb.children.length===0){ var tr=document.createElement('tr'); tr.id='noLim'; tr.innerHTML='<td colspan="7" class="no-issues">No limiters</td>'; lb.appendChild(tr); }
+      if(lb&&lb.children.length===0){ var tr=document.createElement('tr'); tr.id='noLim'; tr.innerHTML='<td colspan="8" class="no-issues" style="color:#999;font-style:italic;text-align:center;padding:12px;">No limiters</td>'; lb.appendChild(tr); }
       return;
     }
     var tag=item.tagName.toLowerCase();
@@ -562,12 +598,11 @@
     if(btn.classList.contains('ic-up')&&idx>0) parent.insertBefore(item, siblings[idx-1]);
     else if(btn.classList.contains('ic-dn')&&idx<siblings.length-1){
       var next=siblings[idx+1];
-      if(next.nextSibling) parent.insertBefore(item, next.nextSibling);
-      else parent.appendChild(item);
+      if(next.nextSibling) parent.insertBefore(item, next.nextSibling); else parent.appendChild(item);
     }
   });
 
-  /* P-BADGE & S-BADGE TOGGLE */
+  /* BADGE TOGGLES */
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('p-badge')&&!e.target.closest('.legend-inline')){
       if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
@@ -584,17 +619,15 @@
   /* + BUTTONS */
   $('btnNote').addEventListener('click', function(){
     var det=document.querySelector('details.notes-detail'); if(det) det.open=true;
-    var box=$('notesBox');
-    var nd=document.createElement('div'); nd.className='n-entry';
+    var box=$('notesBox'), nd=document.createElement('div'); nd.className='n-entry';
     nd.innerHTML='<span class="n-date" contenteditable="true">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>';
-    box.insertBefore(nd,box.firstChild);
-    nd.querySelector('span[style]').focus();
+    box.insertBefore(nd,box.firstChild); nd.querySelector('span[style]').focus();
   });
 
   $('btnLim').addEventListener('click', function(){
     var nl=document.getElementById('noLim'); if(nl) nl.remove();
     var lb=$('limBody'), tr=document.createElement('tr');
-    tr.innerHTML='<td><span class="p-badge p1">P1</span></td><td><span class="s-badge s-open">OPEN</span></td><td contenteditable="true">Issue...</td><td contenteditable="true">Action...</td><td contenteditable="true">Owner</td><td contenteditable="true">Date</td><td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>';
+    tr.innerHTML='<td><span class="p-badge p1">P1</span></td><td><span class="s-badge s-open">OPEN</span></td><td contenteditable="true">Issue...</td><td contenteditable="true">Action...</td><td contenteditable="true">Owner</td><td contenteditable="true">'+todayStr().substring(5).replace('-','/')+'</td><td contenteditable="true">Date</td><td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>';
     lb.appendChild(tr); tr.querySelectorAll('[contenteditable]')[0].focus();
   });
 
@@ -608,7 +641,7 @@
   var t; document.addEventListener('input', function(){ if(viewingSnapshot) return; clearTimeout(t); t=setTimeout(saveCurrent,3000); });
   document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); $('btnSave').click(); } });
 
-  /* ── CLEAN CLONE helper ── */
+  /* CLEAN CLONE */
   function cleanClone(){
     var c=$('report').cloneNode(true);
     c.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
@@ -623,7 +656,7 @@
   $('btnExport').addEventListener('click', function(){
     var full=document.documentElement.cloneNode(true);
     var tb=full.querySelector('.toolbar'); if(tb) tb.remove();
-    var wk=full.querySelector('.wiki'); if(wk) wk.remove();
+    var hr=full.querySelector('.hist-rail'); if(hr) hr.remove();
     var ov=full.querySelector('.save-overlay'); if(ov) ov.remove();
     var sb=full.querySelector('.snapshot-banner'); if(sb) sb.remove();
     full.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
@@ -636,15 +669,11 @@
     var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='fauna-status-'+todayStr()+'.html'; a.click();
   });
 
-  /* EXPORT PNG */
+  /* PNG */
   $('btnPng').addEventListener('click', function(){
-    /* Use native canvas rendering approach */
     var el=$('report');
-    /* Hide controls temporarily */
     el.querySelectorAll('.item-ctrl').forEach(function(c){ c.style.display='none'; });
     el.querySelectorAll('.prod-note').forEach(function(c){ c.style.display='none'; });
-
-    /* Create SVG foreignObject approach */
     var w=el.scrollWidth, h=el.scrollHeight;
     var clone=el.cloneNode(true);
     clone.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
@@ -652,45 +681,20 @@
     clone.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
     var ds2=clone.querySelector('#dataStore'); if(ds2) ds2.remove();
     clone.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
-
-    /* Get computed styles */
     var styles='';
-    var sheets=document.styleSheets;
-    for(var i=0;i<sheets.length;i++){
-      try{ var rules=sheets[i].cssRules; for(var j=0;j<rules.length;j++) styles+=rules[j].cssText+'\n'; }catch(e){}
-    }
-
-    var svgHTML='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'+
-      '<foreignObject width="100%" height="100%">'+
-      '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:system-ui,sans-serif;font-size:13px;line-height:1.5;color:#1a1a1a;">'+
-      '<style>'+styles+'</style>'+
-      clone.outerHTML+
-      '</div></foreignObject></svg>';
-
+    try{ var sheets=document.styleSheets; for(var i=0;i<sheets.length;i++){ var rules=sheets[i].cssRules; for(var j=0;j<rules.length;j++) styles+=rules[j].cssText+'\n'; } }catch(e){}
+    var svgHTML='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="font-family:system-ui,sans-serif;font-size:13px;line-height:1.5;color:#1a1a1a;"><style>'+styles+'</style>'+clone.outerHTML+'</div></foreignObject></svg>';
     var svgBlob=new Blob([svgHTML],{type:'image/svg+xml;charset=utf-8'});
     var url=URL.createObjectURL(svgBlob);
-
-    var canvas=document.createElement('canvas');
-    canvas.width=w*2; canvas.height=h*2;
-    var ctx=canvas.getContext('2d');
-    ctx.scale(2,2);
-
+    var canvas=document.createElement('canvas'); canvas.width=w*2; canvas.height=h*2;
+    var ctx=canvas.getContext('2d'); ctx.scale(2,2);
     var img=new Image();
     img.onload=function(){
-      ctx.fillStyle='#fff';
-      ctx.fillRect(0,0,w,h);
-      ctx.drawImage(img,0,0,w,h);
+      ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
       URL.revokeObjectURL(url);
-      canvas.toBlob(function(blob){
-        var a=document.createElement('a');
-        a.href=URL.createObjectURL(blob);
-        a.download='fauna-status-'+todayStr()+'.png';
-        a.click();
-      },'image/png');
+      canvas.toBlob(function(blob){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='fauna-status-'+todayStr()+'.png'; a.click(); },'image/png');
     };
     img.src=url;
-
-    /* Restore controls */
     el.querySelectorAll('.item-ctrl').forEach(function(c){ c.style.display=''; });
     el.querySelectorAll('.prod-note').forEach(function(c){ c.style.display=''; });
   });
@@ -700,57 +704,20 @@
     var c=cleanClone();
     var subject=encodeURIComponent('Fauna Sprout Robot — Production Status '+todayStr());
     var bodyText='';
-    /* extract text content for email */
     var header=c.querySelector('.header');
     if(header) bodyText+=header.textContent.trim().replace(/\s+/g,' ')+'\n\n';
-
     var execItems=c.querySelectorAll('.exec-list li');
-    if(execItems.length){
-      bodyText+='EXECUTIVE SUMMARY\n';
-      execItems.forEach(function(li){ bodyText+='- '+li.textContent.trim()+'\n'; });
-      bodyText+='\n';
-    }
-
+    if(execItems.length){ bodyText+='EXECUTIVE SUMMARY\n'; execItems.forEach(function(li){ bodyText+='- '+li.textContent.trim()+'\n'; }); bodyText+='\n'; }
     var kpi=c.querySelector('.kpi-row');
     if(kpi) bodyText+='STATUS: '+kpi.textContent.trim().replace(/\s+/g,' ')+'\n\n';
-
-    /* prod table */
     var rows=c.querySelectorAll('.prod-table tr');
-    if(rows.length){
-      bodyText+='PRODUCTION OVERVIEW\n';
-      rows.forEach(function(r){
-        var cells=r.querySelectorAll('th, td');
-        var line=[];
-        cells.forEach(function(c){ line.push(c.textContent.trim()); });
-        bodyText+=line.join(' | ')+'\n';
-      });
-      bodyText+='\n';
-    }
-
-    /* limiters */
+    if(rows.length){ bodyText+='PRODUCTION OVERVIEW\n'; rows.forEach(function(r){ var cells=r.querySelectorAll('th, td'); var line=[]; cells.forEach(function(c){ line.push(c.textContent.trim()); }); bodyText+=line.join(' | ')+'\n'; }); bodyText+='\n'; }
     var limRows=c.querySelectorAll('.lim-table tbody tr');
-    if(limRows.length && !c.querySelector('.no-issues')){
-      bodyText+='MAIN LIMITERS\n';
-      limRows.forEach(function(r){
-        var cells=r.querySelectorAll('td');
-        var line=[];
-        cells.forEach(function(c){ line.push(c.textContent.trim()); });
-        bodyText+=line.join(' | ')+'\n';
-      });
-      bodyText+='\n';
-    }
-
-    /* notes */
+    if(limRows.length){ bodyText+='MAIN LIMITERS\n'; limRows.forEach(function(r){ var cells=r.querySelectorAll('td'); var line=[]; cells.forEach(function(c){ var t=c.textContent.trim(); if(t) line.push(t); }); if(line.length) bodyText+=line.join(' | ')+'\n'; }); bodyText+='\n'; }
     var notes=c.querySelectorAll('.n-entry');
-    if(notes.length){
-      bodyText+='DAILY NOTES\n';
-      notes.forEach(function(n){ bodyText+=n.textContent.trim()+'\n'; });
-    }
-
-    var body=encodeURIComponent(bodyText);
-    window.location.href='mailto:?subject='+subject+'&body='+body;
+    if(notes.length){ bodyText+='DAILY NOTES\n'; notes.forEach(function(n){ bodyText+=n.textContent.trim()+'\n'; }); }
+    window.location.href='mailto:?subject='+subject+'&body='+encodeURIComponent(bodyText);
   });
-
 })();
 </script>
 </body>
