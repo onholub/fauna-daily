@@ -14,7 +14,6 @@
   }
   .container { max-width: 1000px; margin: 0 auto; padding: 32px 40px; }
 
-  /* ── TOOLBAR ── */
   .toolbar {
     background: #111; color: #fff; padding: 8px 24px;
     display: flex; align-items: center; gap: 12px; font-size: 0.78rem;
@@ -35,7 +34,6 @@
   #statusMsg { font-size: 0.72rem; color: #8f8; opacity: 0; transition: opacity 0.3s; }
   #statusMsg.show { opacity: 1; }
 
-  /* ── HEADER ── */
   .header {
     border-bottom: 3px solid #111; padding-bottom: 14px; margin-bottom: 20px;
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -64,14 +62,8 @@
   }
   .exec-list li::before { content: '–'; position: absolute; left: 0; color: #666; font-weight: 700; }
 
-  /* ═══════════════════════════════════
-     PRODUCTION DASHBOARD
-  ═══════════════════════════════════ */
-
-  /* ── TOP KPI ROW ── */
-  .kpi-row {
-    display: flex; gap: 16px; margin-bottom: 20px;
-  }
+  /* ═══ KPI ═══ */
+  .kpi-row { display: flex; gap: 16px; margin-bottom: 20px; }
   .kpi-box {
     flex: 1; background: #fafafa; border: 1px solid #e5e5e5;
     border-radius: 6px; padding: 12px 16px; text-align: center;
@@ -83,163 +75,90 @@
   .kpi-box.kpi-red { border-bottom: 3px solid #b91c1c; }
   .kpi-box.kpi-neutral { border-bottom: 3px solid #ccc; }
 
-  /* ── DAILY BAR CHART ── */
+  /* ═══ BAR CHART ═══ */
   .chart-area {
     display: flex; gap: 0; align-items: flex-end;
-    height: 140px; padding: 0 0 0 0;
-    border-bottom: 2px solid #222;
-    margin-bottom: 4px;
-    position: relative;
+    height: 140px; border-bottom: 2px solid #222;
+    margin-bottom: 4px; position: relative;
   }
-
-  /* Y-axis gridlines */
   .chart-area::before {
-    content: ''; position: absolute; left: 0; right: 0;
-    top: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent, transparent calc(100% / 3 - 1px),
-      #f0f0f0 calc(100% / 3 - 1px), #f0f0f0 calc(100% / 3)
-    );
+    content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+    background: repeating-linear-gradient(to bottom, transparent, transparent calc(100% / 3 - 1px), #f0f0f0 calc(100% / 3 - 1px), #f0f0f0 calc(100% / 3));
     pointer-events: none;
   }
-
   .chart-day {
     flex: 1; display: flex; flex-direction: column;
     align-items: center; justify-content: flex-end;
-    position: relative; z-index: 1;
-    padding: 0 6px;
+    position: relative; z-index: 1; padding: 0 6px;
   }
-
-  .bar-group {
-    display: flex; gap: 3px; align-items: flex-end; width: 100%;
-    justify-content: center;
-  }
-
-  .bar {
-    width: 22px; border-radius: 3px 3px 0 0;
-    transition: height 0.3s;
-    min-height: 0;
-    position: relative;
-  }
-
-  .bar-planned {
-    background: #e0e0e0; border: 1px solid #ccc; border-bottom: none;
-  }
-
-  .bar-actual {
-    background: #1a7a2e;
-  }
-
+  .bar-group { display: flex; gap: 3px; align-items: flex-end; width: 100%; justify-content: center; }
+  .bar { width: 22px; border-radius: 3px 3px 0 0; transition: height 0.3s; min-height: 0; position: relative; }
+  .bar-planned { background: #e0e0e0; border: 1px solid #ccc; border-bottom: none; }
+  .bar-actual { background: #1a7a2e; }
   .bar-actual.behind { background: #b91c1c; }
   .bar-actual.zero { background: transparent; border: 1px dashed #ddd; border-bottom: none; min-height: 2px; }
-
   .bar-val {
     position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
-    font-size: 0.65rem; font-weight: 700; font-family: monospace;
-    white-space: nowrap; color: #555;
+    font-size: 0.65rem; font-weight: 700; font-family: monospace; white-space: nowrap; color: #555;
   }
-
-  .chart-labels {
-    display: flex; gap: 0;
-  }
-
-  .chart-label {
-    flex: 1; text-align: center;
-    font-size: 0.68rem; font-weight: 600; color: #888;
-    padding: 6px 0 0 0;
-  }
-
+  .chart-labels { display: flex; gap: 0; }
+  .chart-label { flex: 1; text-align: center; font-size: 0.68rem; font-weight: 600; color: #888; padding: 6px 0 0 0; }
   .chart-label.cl-today {
-    color: #111; font-weight: 800;
-    background: #fdf8e8; border-left: 2px solid #b8860b;
-    border-right: 2px solid #b8860b;
-    border-bottom: 2px solid #b8860b;
-    border-radius: 0 0 4px 4px;
+    color: #111; font-weight: 800; background: #fdf8e8;
+    border-left: 2px solid #b8860b; border-right: 2px solid #b8860b;
+    border-bottom: 2px solid #b8860b; border-radius: 0 0 4px 4px;
     margin: 0 -1px; padding: 6px 1px 4px 1px;
   }
-
-  .chart-legend {
-    display: flex; gap: 16px; margin-top: 6px; font-size: 0.68rem; color: #999;
-    align-items: center;
-  }
+  .chart-legend { display: flex; gap: 16px; margin-top: 6px; font-size: 0.68rem; color: #999; align-items: center; }
   .cl-item { display: flex; align-items: center; gap: 4px; }
   .cl-swatch { width: 12px; height: 8px; border-radius: 2px; }
 
-  /* ── STAGE PROGRESS BARS ── */
-  .stage-grid {
-    display: flex; flex-direction: column; gap: 6px;
-    margin-top: 16px;
+  /* ═══ STAGE PROGRESS ═══ */
+  details.stage-detail { margin-top: 8px; }
+  details.stage-detail > summary {
+    font-size: 0.70rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #666; padding: 4px 0;
+    cursor: pointer; user-select: none; list-style: none;
+    border-bottom: 1px solid #eee; margin-bottom: 8px;
   }
+  details.stage-detail > summary::-webkit-details-marker { display: none; }
+  details.stage-detail > summary::before { content: '▸ '; color: #bbb; font-size: 0.8rem; }
+  details.stage-detail[open] > summary::before { content: '▾ '; }
 
-  .stage-row {
-    display: grid; grid-template-columns: 100px 1fr 50px;
-    align-items: center; gap: 10px;
-  }
-
+  .stage-grid { display: flex; flex-direction: column; gap: 6px; }
+  .stage-row { display: grid; grid-template-columns: 100px 1fr 50px; align-items: center; gap: 10px; }
   .stage-name { font-size: 0.78rem; font-weight: 700; color: #333; }
-
-  .prog-track {
-    height: 18px; background: #f0f0f0; border-radius: 9px;
-    overflow: hidden; position: relative;
-  }
-
-  .prog-fill {
-    height: 100%; border-radius: 9px;
-    transition: width 0.4s; position: absolute; left: 0; top: 0;
-  }
-
+  .prog-track { height: 18px; background: #f0f0f0; border-radius: 9px; overflow: hidden; position: relative; }
+  .prog-fill { height: 100%; border-radius: 9px; transition: width 0.4s; position: absolute; left: 0; top: 0; }
   .prog-fill.pf-green { background: #1a7a2e; }
   .prog-fill.pf-red { background: #b91c1c; }
   .prog-fill.pf-zero { background: transparent; }
-
-  .prog-target {
-    position: absolute; top: 0; bottom: 0; width: 2px;
-    background: #222; z-index: 2;
-  }
-
-  .prog-target::after {
-    content: attr(data-label);
-    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-    font-size: 0.6rem; color: #888; white-space: nowrap; font-weight: 600;
-  }
-
-  .stage-count {
-    font-family: monospace; font-size: 0.82rem; font-weight: 700;
-    text-align: right; color: #222;
-  }
-
+  .prog-target { position: absolute; top: 0; bottom: 0; width: 2px; background: #222; z-index: 2; }
+  .stage-count { font-family: monospace; font-size: 0.82rem; font-weight: 700; text-align: right; color: #222; }
   .sc-met { color: #1a7a2e; }
   .sc-behind { color: #b91c1c; }
 
-  /* ── EDITABLE MINI TABLE (hidden by default) ── */
+  /* ═══ DATA TABLE ═══ */
   details.data-edit { margin-top: 12px; }
   details.data-edit summary {
     font-size: 0.68rem; color: #aaa; border: none; padding: 0; margin: 0;
-    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
-    border-bottom: none;
+    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; border-bottom: none;
   }
+  details.data-edit summary::-webkit-details-marker { display: none; }
   details.data-edit summary::before { content: '▸ '; color: #ccc; }
   details.data-edit[open] summary::before { content: '▾ '; }
-
   .data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 8px; }
   .data-table th {
-    background: #f5f5f5; color: #666; padding: 5px 8px;
-    text-align: center; font-weight: 600; font-size: 0.7rem;
-    text-transform: uppercase; letter-spacing: 0.3px;
-    border-bottom: 1px solid #ddd;
+    background: #f5f5f5; color: #666; padding: 5px 8px; text-align: center;
+    font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid #ddd;
   }
   .data-table th:first-child { text-align: left; }
-  .data-table td {
-    padding: 5px 8px; text-align: center; border-bottom: 1px solid #f0f0f0;
-    font-family: monospace;
-  }
+  .data-table td { padding: 5px 8px; text-align: center; border-bottom: 1px solid #f0f0f0; font-family: monospace; }
   .data-table td:first-child { text-align: left; font-family: system-ui, sans-serif; font-weight: 600; }
   .data-table td[contenteditable="true"]:focus { background: #fdfaf0; box-shadow: inset 0 0 0 1px #b8860b; }
-
   .dt-today { background: #fdf8e8 !important; }
 
-  /* ── LIMITERS ── */
+  /* ═══ LIMITERS ═══ */
   .lim-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
   .lim-table th {
     background: #444; color: #fff; padding: 7px 10px; text-align: left;
@@ -270,13 +189,10 @@
   .n-entry { padding: 4px 0; border-bottom: 1px solid #eee; display: flex; align-items: baseline; gap: 4px; }
   .n-entry:last-child { border-bottom: none; }
   .n-date { font-size: 0.7rem; color: #888; font-weight: 700; font-family: monospace; white-space: nowrap; }
-
   .x-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 0.85rem; padding: 0 4px; flex-shrink: 0; margin-left: auto; }
   .x-del:hover { color: #b91c1c; }
-
   .resources-inline { font-size: 0.7rem; color: #888; margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee; }
   .footer { text-align: center; font-size: 0.7rem; color: #999; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
-
   #dataStore { display: none; }
 
   @media print {
@@ -285,6 +201,7 @@
     [contenteditable="true"]:hover { background: transparent; }
     .x-del { display: none; }
     details.data-edit { display: none; }
+    details.stage-detail { open: true; }
   }
 </style>
 </head>
@@ -309,7 +226,7 @@
     </div>
     <div class="header-right">
       <strong contenteditable="true">CW41</strong> · <span contenteditable="true">Oct 5 – 9, 2026</span><br>
-      Updated: <strong contenteditable="true">Tue, Oct 6, 2026</strong>
+      Updated: <strong contenteditable="true">Thu, Oct 8, 2026</strong>
     </div>
   </div>
 
@@ -317,20 +234,18 @@
   <div class="section">
     <div class="section-title">Executive Summary</div>
     <ul class="exec-list" id="execList">
-      <li><span contenteditable="true">Pilot production started — 1st unit built (MES ref: XXXX)</span><button class="x-del">×</button></li>
-      <li><span contenteditable="true">Completion target: 3 units by end of CW41</span><button class="x-del">×</button></li>
-      <li><span contenteditable="true">Preparation target: 5 units for CW42</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Pilot production behind schedule — 2 of 3 CW41 units through final testing, pack out pending</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Backplane swap (from Board) caused 6h delay due to connector testing</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Assembly zeroing table required modification to fit robot — resolved</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Fri 10/9: Plan to finish 1 unit (skip calibration); pre-build WIP before exec visit</span><button class="x-del">×</button></li>
+      <li><span contenteditable="true">Fauna sending new calibrated testing equipment — expected before Fri build</span><button class="x-del">×</button></li>
     </ul>
   </div>
 
   <!-- PRODUCTION OVERVIEW -->
   <div class="section">
     <div class="section-title">Production Overview</div>
-
-    <!-- KPI ROW -->
     <div class="kpi-row" id="kpiRow"></div>
-
-    <!-- BAR CHART -->
     <div class="chart-area" id="chartArea"></div>
     <div class="chart-labels" id="chartLabels"></div>
     <div class="chart-legend">
@@ -339,17 +254,20 @@
       <div class="cl-item"><span class="cl-swatch" style="background:#b91c1c"></span> Behind</div>
     </div>
 
-    <!-- STAGE PROGRESS -->
-    <div class="stage-grid" id="stageGrid"></div>
+    <!-- STAGE PROGRESS (expandable) -->
+    <details class="stage-detail" open>
+      <summary>Stage Breakdown</summary>
+      <div class="stage-grid" id="stageGrid"></div>
+    </details>
 
-    <!-- EDITABLE DATA (collapsed) -->
+    <!-- RAW DATA (expandable) -->
     <details class="data-edit">
       <summary>Edit Raw Data</summary>
       <table class="data-table" id="dataTable"></table>
     </details>
   </div>
 
-  <textarea id="dataStore">{"stages":["AGX","Board","Assembly","Final Testing","Pack Out"],"days":["Mon 10/5","Tue 10/6","Wed 10/7","Thu 10/8","Fri 10/9"],"todayIdx":1,"weekTarget":3,"planned":[[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0]],"actual":[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]}</textarea>
+  <textarea id="dataStore">{"stages":["AGX","Board / Backplane","Assembly","Final Testing","Pack Out"],"days":["Mon 10/5","Tue 10/6","Wed 10/7","Thu 10/8","Fri 10/9"],"todayIdx":3,"weekTarget":3,"planned":[[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0]],"actual":[[0,0,1,1,0],[0,0,1,1,0],[0,0,1,1,0],[0,0,1,1,0],[0,0,1,0,0]]}</textarea>
 
   <!-- MAIN LIMITERS -->
   <div class="section">
@@ -357,7 +275,22 @@
     <table class="lim-table">
       <thead><tr><th style="width:9%">Crit.</th><th style="width:27%">Issue</th><th style="width:29%">Action</th><th style="width:17%">Owner</th><th style="width:12%">Due</th><th style="width:6%"></th></tr></thead>
       <tbody id="limBody">
-        <tr id="noLim"><td colspan="6" class="no-issues">No limiters — click "+ Limiter" to add</td></tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td contenteditable="true">Backplane swap (from Board) — connector testing failed initial validation, caused ~6h build delay</td>
+          <td contenteditable="true">Reworked connector pinout; validated. Fauna sending calibrated test equipment for Fri.</td>
+          <td contenteditable="true">Board Team</td>
+          <td contenteditable="true">Oct 9</td>
+          <td><button class="x-del">×</button></td>
+        </tr>
+        <tr>
+          <td><span class="p-badge p2">P2</span></td>
+          <td contenteditable="true">Assembly zeroing table does not fit robot — required physical modification of fixture</td>
+          <td contenteditable="true">Table modified on-site, now operational. Verify fit on next unit before assembly start.</td>
+          <td contenteditable="true">Assembly Team</td>
+          <td contenteditable="true">Oct 9</td>
+          <td><button class="x-del">×</button></td>
+        </tr>
       </tbody>
     </table>
     <div class="legend-inline">
@@ -373,8 +306,18 @@
       <summary>Daily Notes</summary>
       <div class="notes-box" id="notesBox">
         <div class="n-entry">
+          <span class="n-date">[2026-10-08]</span>
+          <span contenteditable="true" style="flex:1">Built 1 of 2 planned units through final testing. Pack out not completed. Backplane connector issue delayed board stage ~6h — resolved with rework. Assembly zeroing table modified to fit bot frame. Tomorrow: finish 1 unit (skipping calibration), pre-build WIP for exec visit. Fauna shipping new calibrated testing equipment overnight.</span>
+          <button class="x-del">×</button>
+        </div>
+        <div class="n-entry">
+          <span class="n-date">[2026-10-07]</span>
+          <span contenteditable="true" style="flex:1">1st unit fully built and packed. All stages completed on schedule. No issues.</span>
+          <button class="x-del">×</button>
+        </div>
+        <div class="n-entry">
           <span class="n-date">[2026-10-06]</span>
-          <span contenteditable="true" style="flex:1">Pilot production commenced. First unit (MES: XXXX) completed. Team confirmed CW41 target of 3 units. No blockers.</span>
+          <span contenteditable="true" style="flex:1">Pilot production commenced. Team confirmed CW41 target of 3 units. No blockers identified.</span>
           <button class="x-del">×</button>
         </div>
       </div>
@@ -393,13 +336,12 @@
   function getData(){ try{ return JSON.parse($('dataStore').value); }catch(e){ return null; } }
   function setData(d){ $('dataStore').value=JSON.stringify(d); }
 
-  var BAR_MAX = 3; /* max units for bar scale — auto-adjusts */
+  var BAR_MAX=3;
 
   function render(){
     var d=getData(); if(!d) return;
     var stages=d.stages, days=d.days, ti=d.todayIdx, planned=d.planned, actual=d.actual;
 
-    /* compute totals */
     var dailyPlanned=[], dailyActual=[];
     for(var di=0;di<days.length;di++){
       var sp=0, sa=0;
@@ -413,18 +355,26 @@
       cumPlanned.push(cp); cumActual.push(ca);
     }
 
-    var totalPlanned=cumPlanned[days.length-1]||1;
-    var totalActual=cumActual[ti]||0;
-    var weekTarget=d.weekTarget||totalPlanned;
+    /* use Pack Out (last stage) actual as "completed units" */
+    var completedUnits=0;
+    for(var di=0;di<=ti;di++) completedUnits+=actual[stages.length-1][di];
 
-    /* find bar max */
+    var totalPlanned=cumPlanned[days.length-1]||1;
+    var weekTarget=d.weekTarget||totalPlanned;
+    var cumPlanThruToday=cumPlanned[ti]||0;
+
     var maxBar=1;
     for(var di=0;di<days.length;di++){ maxBar=Math.max(maxBar,dailyPlanned[di],dailyActual[di]); }
     BAR_MAX=maxBar;
 
-    /* ── KPI ROW ── */
-    var onTrack=totalActual>=cumPlanned[ti];
-    var pct=weekTarget>0?Math.round((totalActual/weekTarget)*100):0;
+    /* furthest stage */
+    var furthestActual=0;
+    for(var si=0;si<stages.length;si++){
+      var sa=0; for(var di=0;di<=ti;di++) sa+=actual[si][di];
+      furthestActual=Math.max(furthestActual,sa);
+    }
+
+    var onTrack=furthestActual>=cumPlanThruToday;
 
     var completedStages=0;
     for(var si=0;si<stages.length;si++){
@@ -434,25 +384,24 @@
     }
 
     $('kpiRow').innerHTML=
-      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
-        '<div class="kpi-label">Units Built</div>'+
-        '<div class="kpi-value">'+totalActual+' / '+weekTarget+'</div>'+
-        '<div class="kpi-sub">CW41 Target · '+pct+'%</div>'+
+      '<div class="kpi-box kpi-red">'+
+        '<div class="kpi-label">Units Completed</div>'+
+        '<div class="kpi-value">'+completedUnits+' / '+weekTarget+'</div>'+
+        '<div class="kpi-sub">CW41 Target · '+Math.round((completedUnits/weekTarget)*100)+'% complete</div>'+
       '</div>'+
-      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
+      '<div class="kpi-box kpi-red">'+
         '<div class="kpi-label">Status</div>'+
-        '<div class="kpi-value" style="font-size:1.1rem;">'+(onTrack?'ON TRACK':'BEHIND')+'</div>'+
-        '<div class="kpi-sub">vs. cumulative plan through today</div>'+
+        '<div class="kpi-value" style="font-size:1.1rem;">BEHIND</div>'+
+        '<div class="kpi-sub">'+furthestActual+' units in progress vs '+cumPlanThruToday+' planned thru today</div>'+
       '</div>'+
-      '<div class="kpi-box kpi-neutral">'+
+      '<div class="kpi-box '+(completedStages>=stages.length?'kpi-green':'kpi-neutral')+'">'+
         '<div class="kpi-label">Stages on Target</div>'+
         '<div class="kpi-value">'+completedStages+' / '+stages.length+'</div>'+
         '<div class="kpi-sub">through '+days[ti]+'</div>'+
       '</div>';
 
-    /* ── BAR CHART ── */
-    var chartH=140;
-    var chartHTML='';
+    /* BAR CHART */
+    var chartH=140, chartHTML='';
     for(var di=0;di<days.length;di++){
       var pH=BAR_MAX>0?(dailyPlanned[di]/BAR_MAX)*chartH:0;
       var aH=BAR_MAX>0?(dailyActual[di]/BAR_MAX)*chartH:0;
@@ -471,14 +420,13 @@
     }
     $('chartArea').innerHTML=chartHTML;
 
-    /* ── CHART LABELS ── */
     var labelsHTML='';
     for(var di=0;di<days.length;di++){
       labelsHTML+='<div class="chart-label'+(di===ti?' cl-today':'')+'">'+(di===ti?'&#9660; TODAY<br>':'')+days[di]+'</div>';
     }
     $('chartLabels').innerHTML=labelsHTML;
 
-    /* ── STAGE PROGRESS ── */
+    /* STAGE PROGRESS */
     var sgHTML='';
     for(var si=0;si<stages.length;si++){
       var sa=0,sp=0;
@@ -487,19 +435,18 @@
       var met=sp>0&&sa>=sp;
       var cls=sp===0?'pf-zero':(met?'pf-green':'pf-red');
       var scCls=sp===0?'':(met?' sc-met':' sc-behind');
-
       sgHTML+='<div class="stage-row">';
       sgHTML+='<div class="stage-name">'+stages[si]+'</div>';
       sgHTML+='<div class="prog-track">';
       sgHTML+='<div class="prog-fill '+cls+'" style="width:'+Math.min(pct2,100)+'%"></div>';
-      if(sp>0) sgHTML+='<div class="prog-target" style="left:100%" data-label="target: '+sp+'"></div>';
+      if(sp>0) sgHTML+='<div class="prog-target" style="left:100%"></div>';
       sgHTML+='</div>';
       sgHTML+='<div class="stage-count'+scCls+'">'+sa+' / '+sp+'</div>';
       sgHTML+='</div>';
     }
     $('stageGrid').innerHTML=sgHTML;
 
-    /* ── DATA TABLE ── */
+    /* DATA TABLE */
     var dtHTML='<thead><tr><th>Stage</th>';
     for(var di=0;di<days.length;di++){
       dtHTML+='<th'+(di===ti?' class="dt-today"':'')+'>'+days[di]+'</th>';
@@ -518,7 +465,6 @@
 
   render();
 
-  /* ── DATA TABLE EDIT ── */
   $('dataTable').addEventListener('focusout', function(e){
     var td=e.target; if(td.tagName!=='TD'||!td.hasAttribute('data-si')) return;
     var d=getData(); if(!d) return;
@@ -533,7 +479,6 @@
     }
   });
 
-  /* ── delegates ── */
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('x-del')){
       var p=e.target.parentElement; if(p) p.remove();
@@ -553,10 +498,10 @@
   $('btnNote').addEventListener('click', function(){
     var det=document.querySelector('details.notes-detail'); if(det) det.open=true;
     var box=$('notesBox');
-    var d=document.createElement('div'); d.className='n-entry';
-    d.innerHTML='<span class="n-date">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><button class="x-del">\u00d7</button>';
-    box.insertBefore(d,box.firstChild);
-    d.querySelector('[contenteditable]').focus();
+    var nd=document.createElement('div'); nd.className='n-entry';
+    nd.innerHTML='<span class="n-date">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><button class="x-del">\u00d7</button>';
+    box.insertBefore(nd,box.firstChild);
+    nd.querySelector('[contenteditable]').focus();
   });
 
   $('btnLim').addEventListener('click', function(){
@@ -574,10 +519,7 @@
 
   function save(){
     try{
-      localStorage.setItem('fauna_v6', JSON.stringify({
-        report: $('report').innerHTML,
-        data: $('dataStore').value
-      }));
+      localStorage.setItem('fauna_v7', JSON.stringify({ report:$('report').innerHTML, data:$('dataStore').value }));
       flash('Saved');
     }catch(e){ flash('Save failed'); }
   }
@@ -585,15 +527,8 @@
   $('btnSave').addEventListener('click', save);
 
   try{
-    var s=localStorage.getItem('fauna_v6');
-    if(s){
-      var parsed=JSON.parse(s);
-      if(parsed.report&&parsed.report.length>100){
-        $('report').innerHTML=parsed.report;
-        if(parsed.data) $('dataStore').value=parsed.data;
-        render();
-      }
-    }
+    var s=localStorage.getItem('fauna_v7');
+    if(s){ var parsed=JSON.parse(s); if(parsed.report&&parsed.report.length>100){ $('report').innerHTML=parsed.report; if(parsed.data) $('dataStore').value=parsed.data; render(); } }
   }catch(e){}
 
   var t; document.addEventListener('input', function(){ clearTimeout(t); t=setTimeout(save,3000); });
@@ -606,13 +541,13 @@
     c.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
     c.querySelectorAll('script').forEach(function(s){ s.remove(); });
     c.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
+    c.querySelectorAll('details.stage-detail').forEach(function(d){ d.setAttribute('open',''); });
     var de=c.querySelector('details.data-edit'); if(de) de.remove();
     var ds=c.querySelector('#dataStore'); if(ds) ds.remove();
     var b=new Blob(['<!DOCTYPE html>\n'+c.outerHTML],{type:'text/html'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(b);
     a.download='fauna-status-'+todayStr()+'.html'; a.click();
   });
-
 })();
 </script>
 </body>
