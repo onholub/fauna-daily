@@ -12,42 +12,30 @@
     background: #fff; color: #1a1a1a; padding: 0; font-size: 13px; line-height: 1.5;
     display: flex; min-height: 100vh;
   }
-
-  /* ═══ LAYOUT ═══ */
   .main-area { flex: 1; min-width: 0; }
   .container { max-width: 1000px; margin: 0 auto; padding: 32px 40px; }
 
-  /* ═══ WIKI SIDEBAR ═══ */
+  /* WIKI SIDEBAR */
   .wiki {
     width: 280px; flex-shrink: 0; background: #fafafa;
     border-left: 1px solid #e0e0e0; display: flex; flex-direction: column;
     transition: width 0.2s; overflow: hidden;
   }
   .wiki.collapsed { width: 0; border-left: none; }
-
   .wiki-header {
     background: #222; color: #fff; padding: 10px 14px;
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.8px;
     text-transform: uppercase; display: flex; align-items: center; gap: 8px;
   }
   .wiki-header span { flex: 1; }
-  .wiki-close {
-    background: none; border: none; color: #888; font-size: 1rem;
-    cursor: pointer; padding: 0 4px; line-height: 1;
-  }
+  .wiki-close { background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
   .wiki-close:hover { color: #fff; }
-
-  .wiki-body {
-    flex: 1; overflow-y: auto; padding: 0;
-  }
-
+  .wiki-body { flex: 1; overflow-y: auto; padding: 0; }
   .wiki-date {
     font-size: 0.68rem; font-weight: 700; color: #888;
     text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 10px 14px 4px 14px; border-bottom: 1px solid #eee;
-    background: #f3f3f3;
+    padding: 10px 14px 4px 14px; border-bottom: 1px solid #eee; background: #f3f3f3;
   }
-
   .wiki-entry {
     padding: 8px 14px; border-bottom: 1px solid #eee;
     cursor: pointer; transition: background 0.1s;
@@ -55,12 +43,10 @@
   }
   .wiki-entry:hover { background: #f0f0e8; }
   .wiki-entry.active { background: #fdf8e8; border-left: 3px solid #b8860b; }
-
   .we-time { font-size: 0.68rem; color: #aaa; font-family: monospace; white-space: nowrap; flex-shrink: 0; }
   .we-label { font-size: 0.76rem; color: #333; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .we-btns { display: flex; gap: 2px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
   .wiki-entry:hover .we-btns { opacity: 1; }
-
   .we-btn {
     background: none; border: 1px solid #ddd; color: #aaa;
     width: 18px; height: 18px; border-radius: 2px; font-size: 0.6rem;
@@ -68,26 +54,18 @@
   }
   .we-btn:hover { background: #fff; color: #333; border-color: #bbb; }
   .we-btn.we-del:hover { background: #fde8e8; color: #b91c1c; border-color: #d4a0a0; }
+  .wiki-empty { padding: 24px 14px; text-align: center; color: #bbb; font-size: 0.78rem; font-style: italic; }
+  .wiki-footer { padding: 8px 14px; border-top: 1px solid #e0e0e0; background: #f5f5f5; font-size: 0.65rem; color: #aaa; text-align: center; }
 
-  .wiki-empty {
-    padding: 24px 14px; text-align: center; color: #bbb;
-    font-size: 0.78rem; font-style: italic;
-  }
-
-  .wiki-footer {
-    padding: 8px 14px; border-top: 1px solid #e0e0e0; background: #f5f5f5;
-    font-size: 0.65rem; color: #aaa; text-align: center;
-  }
-
-  /* ═══ TOOLBAR ═══ */
+  /* TOOLBAR */
   .toolbar {
     background: #111; color: #fff; padding: 8px 24px;
-    display: flex; align-items: center; gap: 12px; font-size: 0.78rem;
+    display: flex; align-items: center; gap: 10px; font-size: 0.78rem; flex-wrap: wrap;
   }
   .toolbar-title { font-weight: 700; font-size: 0.82rem; margin-right: auto; letter-spacing: 0.5px; }
   .tb {
     background: #333; color: #fff; border: 1px solid #555;
-    padding: 5px 14px; border-radius: 3px; font-size: 0.75rem;
+    padding: 5px 12px; border-radius: 3px; font-size: 0.73rem;
     font-weight: 600; cursor: pointer; font-family: system-ui, sans-serif;
   }
   .tb:hover { background: #444; }
@@ -99,40 +77,54 @@
   .tb-exp:hover { background: #573d00; }
   .tb-hist { background: #4a235a; border-color: #4a235a; }
   .tb-hist:hover { background: #3b1c48; }
+  .tb-email { background: #1a5276; border-color: #1a5276; }
+  .tb-email:hover { background: #154360; }
+  .tb-png { background: #6b4c00; border-color: #6b4c00; }
+  .tb-png:hover { background: #573d00; }
   #statusMsg { font-size: 0.72rem; color: #8f8; opacity: 0; transition: opacity 0.3s; }
   #statusMsg.show { opacity: 1; }
 
-  /* ═══ SAVE DIALOG ═══ */
+  /* SAVE DIALOG */
   .save-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4); z-index: 100;
-    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.4); z-index: 100; display: none;
+    align-items: center; justify-content: center;
   }
   .save-overlay.open { display: flex; }
-  .save-dialog {
-    background: #fff; border-radius: 8px; padding: 24px;
-    width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  }
+  .save-dialog { background: #fff; border-radius: 8px; padding: 24px; width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
   .save-dialog h3 { font-size: 0.9rem; margin-bottom: 12px; }
   .save-dialog label { font-size: 0.75rem; font-weight: 600; color: #555; display: block; margin-bottom: 4px; }
-  .save-dialog input {
+  .save-dialog input, .save-dialog textarea {
     width: 100%; padding: 7px 10px; border: 1px solid #ccc;
     border-radius: 4px; font-size: 0.82rem; margin-bottom: 12px;
     font-family: system-ui, sans-serif;
   }
-  .save-dialog input:focus { outline: none; border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
+  .save-dialog input:focus, .save-dialog textarea:focus { outline: none; border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
   .sd-btns { display: flex; gap: 8px; justify-content: flex-end; }
   .sd-btn {
     padding: 6px 18px; border-radius: 4px; font-size: 0.78rem;
-    font-weight: 600; cursor: pointer; border: 1px solid #ccc;
-    font-family: system-ui, sans-serif;
+    font-weight: 600; cursor: pointer; border: 1px solid #ccc; font-family: system-ui, sans-serif;
   }
   .sd-cancel { background: #f5f5f5; color: #555; }
   .sd-cancel:hover { background: #eee; }
   .sd-confirm { background: #2d7a3a; color: #fff; border-color: #2d7a3a; }
   .sd-confirm:hover { background: #236b2e; }
 
-  /* ═══ REST ═══ */
+  /* SNAPSHOT BANNER */
+  .snapshot-banner {
+    display: none; background: #fef3e2; border: 1px solid #d4b896;
+    padding: 8px 16px; border-radius: 4px; margin-bottom: 16px;
+    font-size: 0.8rem; color: #92400e; font-weight: 600; align-items: center; gap: 8px;
+  }
+  .snapshot-banner.show { display: flex; }
+  .snapshot-banner span { flex: 1; }
+  .sb-back {
+    background: #222; color: #fff; border: none; padding: 4px 14px;
+    border-radius: 3px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
+  }
+  .sb-back:hover { background: #444; }
+
+  /* HEADER */
   .header {
     border-bottom: 3px solid #111; padding-bottom: 14px; margin-bottom: 20px;
     display: flex; justify-content: space-between; align-items: flex-end;
@@ -164,7 +156,7 @@
 
   .item-ctrl {
     display: flex; gap: 1px; flex-shrink: 0; margin-left: auto;
-    opacity: 0.3; transition: opacity 0.15s;
+    opacity: 0; transition: opacity 0.15s;
   }
   li:hover .item-ctrl, tr:hover .item-ctrl, .n-entry:hover .item-ctrl { opacity: 1; }
   .ic {
@@ -177,6 +169,7 @@
   .ic:hover { background: #f0f0f0; color: #333; border-color: #bbb; }
   .ic.ic-del:hover { background: #fde8e8; color: #b91c1c; border-color: #d4a0a0; }
 
+  /* KPI */
   .kpi-row { display: flex; gap: 16px; margin-bottom: 18px; }
   .kpi-box {
     flex: 1; background: #fafafa; border: 1px solid #e5e5e5;
@@ -188,6 +181,7 @@
   .kpi-box.kpi-green { border-bottom: 3px solid #1a7a2e; }
   .kpi-box.kpi-red { border-bottom: 3px solid #b91c1c; }
 
+  /* PROD TABLE */
   .prod-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
   .prod-table th {
     background: #222; color: #fff; padding: 7px 10px; text-align: center;
@@ -201,7 +195,7 @@
   .prod-table td:first-child { text-align: left; font-family: system-ui, sans-serif; font-weight: 600; color: #222; }
   .prod-table tr:nth-child(even) { background: #fafafa; }
   .prod-table td[contenteditable="true"]:focus { background: #fdfaf0 !important; box-shadow: inset 0 0 0 1px #b8860b; }
-  .th-today { background: #000 !important; border-left: 3px solid #b8860b; border-right: 3px solid #b8860b; font-weight: 700; }
+  .th-today { background: #000 !important; border-left: 3px solid #b8860b; border-right: 3px solid #b8860b; }
   .td-today { background: #fdf8e8 !important; border-left: 3px solid #b8860b; border-right: 3px solid #b8860b; font-weight: 700; }
   .cell-met { color: #1a7a2e; font-weight: 700; }
   .cell-behind { color: #b91c1c; font-weight: 700; }
@@ -211,6 +205,7 @@
   .cell-behind-bg { background: #fef2f2 !important; }
   .prod-note { font-size: 0.7rem; color: #999; margin-top: 6px; }
 
+  /* LIMITERS */
   .lim-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
   .lim-table th {
     background: #444; color: #fff; padding: 7px 10px; text-align: left;
@@ -224,9 +219,17 @@
   .p-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; font-family: monospace; cursor: pointer; }
   .p1 { background: #fde8e8; color: #991b1b; border: 1px solid #d4a0a0; }
   .p2 { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
-  .legend-inline { margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7; }
-  .legend-inline .p-badge { font-size: 0.65rem; padding: 0px 5px; vertical-align: middle; cursor: default; }
 
+  /* STATUS BADGES */
+  .s-badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 0.68rem; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
+  .s-open { background: #fde8e8; color: #991b1b; border: 1px solid #d4a0a0; }
+  .s-wip { background: #fef3e2; color: #92400e; border: 1px solid #d4b896; }
+  .s-done { background: #e8f5e9; color: #1a7a2e; border: 1px solid #a3d9a5; }
+
+  .legend-inline { margin-top: 8px; font-size: 0.7rem; color: #888; line-height: 1.7; }
+  .legend-inline .p-badge, .legend-inline .s-badge { font-size: 0.65rem; padding: 0px 5px; vertical-align: middle; cursor: default; }
+
+  /* NOTES */
   details.notes-detail { margin-bottom: 0; }
   details.notes-detail > summary {
     font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
@@ -243,7 +246,8 @@
   .n-date {
     font-size: 0.7rem; color: #888; font-weight: 700; font-family: monospace;
     white-space: nowrap; background: #f0f0f0; padding: 1px 5px;
-    border-radius: 3px; border: 1px solid #e0e0e0; flex-shrink: 0; align-self: flex-start; margin-top: 2px;
+    border-radius: 3px; border: 1px solid #e0e0e0; flex-shrink: 0;
+    align-self: flex-start; margin-top: 2px;
   }
   .n-entry span[contenteditable] { flex: 1; }
 
@@ -251,49 +255,35 @@
   .footer { text-align: center; font-size: 0.7rem; color: #999; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
   #dataStore { display: none; }
 
-  /* viewing old snapshot banner */
-  .snapshot-banner {
-    display: none; background: #fef3e2; border: 1px solid #d4b896;
-    padding: 8px 16px; border-radius: 4px; margin-bottom: 16px;
-    font-size: 0.8rem; color: #92400e; font-weight: 600;
-    align-items: center; gap: 8px;
-  }
-  .snapshot-banner.show { display: flex; }
-  .snapshot-banner span { flex: 1; }
-  .sb-back {
-    background: #222; color: #fff; border: none; padding: 4px 14px;
-    border-radius: 3px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
-  }
-  .sb-back:hover { background: #444; }
-
   @media print {
     .toolbar, .wiki, .save-overlay, .snapshot-banner { display: none !important; }
     body { display: block; }
     .container { padding: 16px; }
     [contenteditable="true"]:hover { background: transparent; }
     .item-ctrl { display: none !important; }
+    .prod-note { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- MAIN -->
 <div class="main-area">
 
 <div class="toolbar" id="toolbar">
   <span class="toolbar-title">EDIT MODE</span>
-  <button class="tb tb-save" id="btnSave">💾 Save Snapshot</button>
+  <button class="tb tb-save" id="btnSave">💾 Save</button>
   <button class="tb tb-add" id="btnNote">+ Note</button>
   <button class="tb tb-add" id="btnLim">+ Limiter</button>
   <button class="tb tb-add" id="btnExec">+ Summary</button>
-  <button class="tb tb-exp" id="btnExport">Export HTML</button>
+  <button class="tb tb-exp" id="btnExport">⬇ HTML</button>
+  <button class="tb tb-png" id="btnPng">📷 PNG</button>
+  <button class="tb tb-email" id="btnEmail">✉ Email</button>
   <button class="tb tb-hist" id="btnWiki">📋 History</button>
   <span id="statusMsg"></span>
 </div>
 
 <div class="container" id="reportWrap">
 
-  <!-- SNAPSHOT BANNER -->
   <div class="snapshot-banner" id="snapBanner">
     <span id="snapLabel">Viewing snapshot: ...</span>
     <button class="sb-back" id="snapBack">← Back to Current</button>
@@ -302,8 +292,8 @@
   <div id="report">
   <div class="header">
     <div>
-      <h1>Fauna Sprout Robot — Pilot Production Status</h1>
-      <div class="sub">Daily Executive Summary &amp; Standup Report</div>
+      <h1 contenteditable="true">Fauna Sprout Robot — Pilot Production Status</h1>
+      <div class="sub" contenteditable="true">Daily Executive Summary &amp; Standup Report</div>
     </div>
     <div class="header-right">
       <strong contenteditable="true">CW41</strong> · <span contenteditable="true">Oct 5 – 9, 2026</span><br>
@@ -312,7 +302,7 @@
   </div>
 
   <div class="section">
-    <div class="section-title">Executive Summary</div>
+    <div class="section-title" contenteditable="true">Executive Summary</div>
     <ul class="exec-list" id="execList">
       <li><span contenteditable="true">Pilot production behind schedule — 2 of 3 CW41 units through final testing, pack out pending</span><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></li>
       <li><span contenteditable="true">Backplane swap (from Board) caused 6h delay due to connector testing</span><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></li>
@@ -323,22 +313,23 @@
   </div>
 
   <div class="section">
-    <div class="section-title">Production Overview</div>
+    <div class="section-title" contenteditable="true">Production Overview</div>
     <div class="kpi-row" id="kpiRow"></div>
     <table class="prod-table" id="prodTable"></table>
-    <p class="prod-note">Click any cell to edit · Format: Actual / Planned · Green = on target · Red = behind · ▼ = Today</p>
+    <p class="prod-note">Click any Actual/Planned cell to edit · Green = on target · Red = behind · ▼ = Today</p>
   </div>
 
   <textarea id="dataStore">{"stages":["AGX","Board / Backplane","Assembly","Final Testing","Pack Out"],"days":["Mon 10/5","Tue 10/6","Wed 10/7","Thu 10/8","Fri 10/9"],"todayIdx":3,"weekTarget":3,"planned":[[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0],[0,0,1,2,0]],"actual":[[0,0,1,1,0],[0,0,1,1,0],[0,0,1,1,0],[0,0,1,1,0],[0,0,1,0,0]]}</textarea>
 
   <div class="section">
-    <div class="section-title">Main Limiters</div>
+    <div class="section-title" contenteditable="true">Main Limiters</div>
     <table class="lim-table">
-      <thead><tr><th style="width:7%">Crit.</th><th style="width:26%">Issue</th><th style="width:28%">Action</th><th style="width:14%">Owner</th><th style="width:10%">Due</th><th style="width:15%"></th></tr></thead>
+      <thead><tr><th style="width:6%">Crit.</th><th style="width:8%">Status</th><th style="width:24%">Issue</th><th style="width:24%">Action</th><th style="width:12%">Owner</th><th style="width:9%">Due</th><th style="width:17%"></th></tr></thead>
       <tbody id="limBody">
         <tr>
           <td><span class="p-badge p2">P2</span></td>
-          <td contenteditable="true">Backplane swap (from Board) — connector testing failed initial validation, caused ~6h build delay</td>
+          <td><span class="s-badge s-done">DONE</span></td>
+          <td contenteditable="true">Backplane swap (from Board) — connector testing failed, caused ~6h delay</td>
           <td contenteditable="true">Reworked connector pinout; validated. Fauna sending calibrated test equipment for Fri.</td>
           <td contenteditable="true">Board Team</td>
           <td contenteditable="true">Oct 9</td>
@@ -346,8 +337,9 @@
         </tr>
         <tr>
           <td><span class="p-badge p2">P2</span></td>
-          <td contenteditable="true">Assembly zeroing table does not fit robot — required physical modification of fixture</td>
-          <td contenteditable="true">Table modified on-site, now operational. Verify fit on next unit before assembly start.</td>
+          <td><span class="s-badge s-done">DONE</span></td>
+          <td contenteditable="true">Assembly zeroing table does not fit robot — required physical modification</td>
+          <td contenteditable="true">Table modified on-site, now operational. Verify fit on next unit.</td>
           <td contenteditable="true">Assembly Team</td>
           <td contenteditable="true">Oct 9</td>
           <td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>
@@ -355,28 +347,32 @@
       </tbody>
     </table>
     <div class="legend-inline">
-      <span class="p-badge p1">P1</span> Safety: endangered · Quality: compliance · Delivery: line down
-      &nbsp;&nbsp;
-      <span class="p-badge p2">P2</span> Quality: primary function failure · Delivery: delay &gt;6h
+      <span class="p-badge p1">P1</span> Safety · Compliance · Line down
+      &nbsp;
+      <span class="p-badge p2">P2</span> Function failure · Delay &gt;6h
+      &nbsp;&nbsp;│&nbsp;&nbsp;
+      <span class="s-badge s-open">OPEN</span>
+      <span class="s-badge s-wip">WIP</span>
+      <span class="s-badge s-done">DONE</span> click to cycle
     </div>
   </div>
 
   <div class="section">
     <details class="notes-detail" open>
-      <summary>Daily Notes</summary>
+      <summary contenteditable="false">Daily Notes</summary>
       <div class="notes-box" id="notesBox">
         <div class="n-entry">
-          <span class="n-date">[2026-10-08]</span>
+          <span class="n-date" contenteditable="true">[2026-10-08]</span>
           <span contenteditable="true" style="flex:1">Built 1 of 2 planned units through final testing. Pack out not completed. Backplane connector issue delayed board stage ~6h — resolved. Assembly zeroing table modified. Tomorrow: finish 1 unit (skip calibration), pre-build WIP for exec visit. Fauna shipping calibrated test equipment overnight.</span>
           <div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>
         </div>
         <div class="n-entry">
-          <span class="n-date">[2026-10-07]</span>
+          <span class="n-date" contenteditable="true">[2026-10-07]</span>
           <span contenteditable="true" style="flex:1">1st unit fully built and packed. All stages completed on schedule. No issues.</span>
           <div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>
         </div>
         <div class="n-entry">
-          <span class="n-date">[2026-10-06]</span>
+          <span class="n-date" contenteditable="true">[2026-10-06]</span>
           <span contenteditable="true" style="flex:1">Pilot production commenced. Team confirmed CW41 target of 3 units. No blockers identified.</span>
           <div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>
         </div>
@@ -384,17 +380,16 @@
     </details>
   </div>
 
-  <div class="resources-inline" contenteditable="true">Resources: Daily Meeting Notes · MES Build Records (XXXX) · CW41/CW42 Production Plan</div>
-  <div class="footer">Fauna Sprout Robot · Pilot Production · CW41 · Confidential</div>
-  </div><!-- /report -->
-</div><!-- /reportWrap -->
+  <div class="resources-inline" contenteditable="true">Resources: Daily Meeting Notes · CW41/CW42 Production Plan</div>
+  <div class="footer" contenteditable="true">Fauna Sprout Robot · Pilot Production · CW41 · Confidential</div>
+  </div>
+</div>
 
-<!-- SAVE DIALOG -->
 <div class="save-overlay" id="saveOverlay">
   <div class="save-dialog">
     <h3>💾 Save Snapshot</h3>
     <label for="snapName">Label</label>
-    <input id="snapName" type="text" placeholder="e.g. End of day, After standup, Pre-exec review...">
+    <input id="snapName" type="text" placeholder="e.g. End of day, After standup...">
     <div class="sd-btns">
       <button class="sd-btn sd-cancel" id="sdCancel">Cancel</button>
       <button class="sd-btn sd-confirm" id="sdConfirm">Save</button>
@@ -402,18 +397,13 @@
   </div>
 </div>
 
-</div><!-- /main-area -->
+</div>
 
-<!-- WIKI SIDEBAR -->
+<!-- WIKI -->
 <div class="wiki collapsed" id="wiki">
-  <div class="wiki-header">
-    <span>📋 History</span>
-    <button class="wiki-close" id="wikiClose">×</button>
-  </div>
-  <div class="wiki-body" id="wikiBody">
-    <div class="wiki-empty" id="wikiEmpty">No snapshots yet.<br>Click "Save Snapshot" to start.</div>
-  </div>
-  <div class="wiki-footer">Snapshots saved in browser localStorage</div>
+  <div class="wiki-header"><span>📋 History</span><button class="wiki-close" id="wikiClose">×</button></div>
+  <div class="wiki-body" id="wikiBody"><div class="wiki-empty">No snapshots yet.</div></div>
+  <div class="wiki-footer">Snapshots in localStorage</div>
 </div>
 
 <script>
@@ -425,130 +415,66 @@
   function getData(){ try{ return JSON.parse($('dataStore').value); }catch(e){ return null; } }
   function setData(d){ $('dataStore').value=JSON.stringify(d); }
 
-  var HIST_KEY='fauna_history';
-  var CURRENT_KEY='fauna_current';
+  var HIST_KEY='fauna_history', CURRENT_KEY='fauna_current';
   var viewingSnapshot=false;
 
-  /* ── HISTORY ── */
   function getHistory(){ try{ return JSON.parse(localStorage.getItem(HIST_KEY))||[]; }catch(e){ return []; } }
   function saveHistory(h){ localStorage.setItem(HIST_KEY, JSON.stringify(h)); }
-
-  function saveCurrent(){
-    localStorage.setItem(CURRENT_KEY, JSON.stringify({
-      report: $('report').innerHTML,
-      data: $('dataStore').value
-    }));
-  }
-
+  function saveCurrent(){ localStorage.setItem(CURRENT_KEY, JSON.stringify({ report:$('report').innerHTML, data:$('dataStore').value })); }
   function loadCurrent(){
-    try{
-      var s=localStorage.getItem(CURRENT_KEY);
-      if(s){ var p=JSON.parse(s); if(p.report&&p.report.length>100){ $('report').innerHTML=p.report; if(p.data) $('dataStore').value=p.data; } }
-    }catch(e){}
+    try{ var s=localStorage.getItem(CURRENT_KEY); if(s){ var p=JSON.parse(s); if(p.report&&p.report.length>100){ $('report').innerHTML=p.report; if(p.data) $('dataStore').value=p.data; } } }catch(e){}
   }
 
   function saveSnapshot(label){
     var h=getHistory();
-    h.unshift({
-      id: Date.now(),
-      date: todayStr(),
-      time: nowTime(),
-      label: label||'Snapshot',
-      report: $('report').innerHTML,
-      data: $('dataStore').value
-    });
+    h.unshift({ id:Date.now(), date:todayStr(), time:nowTime(), label:label||'Snapshot', report:$('report').innerHTML, data:$('dataStore').value });
     if(h.length>50) h=h.slice(0,50);
-    saveHistory(h);
-    saveCurrent();
-    renderWiki();
-    flash('Snapshot saved');
+    saveHistory(h); saveCurrent(); renderWiki(); flash('Snapshot saved');
   }
 
   function loadSnapshot(id){
-    var h=getHistory();
-    var snap=null;
+    var h=getHistory(), snap=null;
     for(var i=0;i<h.length;i++){ if(h[i].id===id){ snap=h[i]; break; } }
     if(!snap) return;
     $('report').innerHTML=snap.report;
     if(snap.data) $('dataStore').value=snap.data;
-    render();
-    viewingSnapshot=true;
+    render(); viewingSnapshot=true;
     $('snapBanner').classList.add('show');
     $('snapLabel').textContent='Viewing: '+snap.label+' ('+snap.date+' '+snap.time+')';
     renderWiki(id);
   }
 
-  function backToCurrent(){
-    loadCurrent();
-    render();
-    viewingSnapshot=false;
-    $('snapBanner').classList.remove('show');
-    renderWiki();
-  }
-
-  function deleteSnapshot(id){
-    var h=getHistory();
-    h=h.filter(function(s){ return s.id!==id; });
-    saveHistory(h);
-    renderWiki();
-  }
+  function backToCurrent(){ loadCurrent(); render(); viewingSnapshot=false; $('snapBanner').classList.remove('show'); renderWiki(); }
+  function deleteSnapshot(id){ var h=getHistory(); h=h.filter(function(s){ return s.id!==id; }); saveHistory(h); renderWiki(); }
 
   function renderWiki(activeId){
-    var h=getHistory();
-    var body=$('wikiBody');
-    if(h.length===0){ body.innerHTML='<div class="wiki-empty">No snapshots yet.<br>Click "Save Snapshot" to start.</div>'; return; }
-
-    var html=''; var lastDate='';
+    var h=getHistory(), body=$('wikiBody');
+    if(h.length===0){ body.innerHTML='<div class="wiki-empty">No snapshots yet.</div>'; return; }
+    var html='', lastDate='';
     for(var i=0;i<h.length;i++){
-      if(h[i].date!==lastDate){
-        lastDate=h[i].date;
-        html+='<div class="wiki-date">'+lastDate+'</div>';
-      }
+      if(h[i].date!==lastDate){ lastDate=h[i].date; html+='<div class="wiki-date">'+lastDate+'</div>'; }
       var ac=h[i].id===activeId?' active':'';
-      html+='<div class="wiki-entry'+ac+'" data-id="'+h[i].id+'">';
-      html+='<span class="we-time">'+h[i].time+'</span>';
-      html+='<span class="we-label">'+h[i].label+'</span>';
-      html+='<div class="we-btns">';
-      html+='<button class="we-btn we-load" title="Load">↩</button>';
-      html+='<button class="we-btn we-del" title="Delete">×</button>';
-      html+='</div></div>';
+      html+='<div class="wiki-entry'+ac+'" data-id="'+h[i].id+'"><span class="we-time">'+h[i].time+'</span><span class="we-label">'+h[i].label+'</span><div class="we-btns"><button class="we-btn we-load" title="Load">↩</button><button class="we-btn we-del" title="Delete">×</button></div></div>';
     }
     body.innerHTML=html;
   }
 
-  /* WIKI EVENTS */
   $('wikiBody').addEventListener('click', function(e){
-    var entry=e.target.closest('.wiki-entry');
-    if(!entry) return;
+    var entry=e.target.closest('.wiki-entry'); if(!entry) return;
     var id=parseInt(entry.getAttribute('data-id'));
     if(e.target.closest('.we-del')){ deleteSnapshot(id); return; }
     loadSnapshot(id);
   });
-
   $('snapBack').addEventListener('click', backToCurrent);
-
-  /* WIKI TOGGLE */
   $('btnWiki').addEventListener('click', function(){ $('wiki').classList.toggle('collapsed'); });
   $('wikiClose').addEventListener('click', function(){ $('wiki').classList.add('collapsed'); });
 
-  /* SAVE DIALOG */
-  $('btnSave').addEventListener('click', function(){
-    $('snapName').value='';
-    $('saveOverlay').classList.add('open');
-    $('snapName').focus();
-  });
+  $('btnSave').addEventListener('click', function(){ $('snapName').value=''; $('saveOverlay').classList.add('open'); $('snapName').focus(); });
   $('sdCancel').addEventListener('click', function(){ $('saveOverlay').classList.remove('open'); });
-  $('sdConfirm').addEventListener('click', function(){
-    var label=$('snapName').value.trim()||'Snapshot';
-    $('saveOverlay').classList.remove('open');
-    saveSnapshot(label);
-  });
-  $('snapName').addEventListener('keydown', function(e){
-    if(e.key==='Enter'){ e.preventDefault(); $('sdConfirm').click(); }
-    if(e.key==='Escape'){ $('sdCancel').click(); }
-  });
+  $('sdConfirm').addEventListener('click', function(){ var l=$('snapName').value.trim()||'Snapshot'; $('saveOverlay').classList.remove('open'); saveSnapshot(l); });
+  $('snapName').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); $('sdConfirm').click(); } if(e.key==='Escape') $('sdCancel').click(); });
 
-  /* ── RENDER TABLE ── */
+  /* ── RENDER ── */
   function cellClass(a,p,di,ti){
     if(p===0&&a===0) return 'cell-empty';
     if(di>ti) return 'cell-future';
@@ -566,7 +492,6 @@
     var d=getData(); if(!d) return;
     var stages=d.stages, days=d.days, ti=d.todayIdx, planned=d.planned, actual=d.actual;
     var ns=stages.length, nd=days.length;
-
     var completedUnits=0;
     for(var di=0;di<=ti;di++) completedUnits+=actual[ns-1][di];
     var weekTarget=d.weekTarget||3;
@@ -576,31 +501,19 @@
     var pct=weekTarget>0?Math.round((completedUnits/weekTarget)*100):0;
 
     $('kpiRow').innerHTML=
-      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
-        '<div class="kpi-label">Units Completed (Pack Out)</div>'+
-        '<div class="kpi-value">'+completedUnits+' / '+weekTarget+'</div>'+
-        '<div class="kpi-sub">CW41 Target · '+pct+'%</div>'+
-      '</div>'+
-      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'">'+
-        '<div class="kpi-label">Status</div>'+
-        '<div class="kpi-value" style="font-size:1.1rem;">'+(onTrack?'ON TRACK':'BEHIND')+'</div>'+
-        '<div class="kpi-sub">through '+days[ti]+'</div>'+
-      '</div>';
+      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'"><div class="kpi-label">Units Completed (Pack Out)</div><div class="kpi-value">'+completedUnits+' / '+weekTarget+'</div><div class="kpi-sub">CW41 Target · '+pct+'%</div></div>'+
+      '<div class="kpi-box '+(onTrack?'kpi-green':'kpi-red')+'"><div class="kpi-label">Status</div><div class="kpi-value" style="font-size:1.1rem;">'+(onTrack?'ON TRACK':'BEHIND')+'</div><div class="kpi-sub">through '+days[ti]+'</div></div>';
 
     var html='<thead><tr><th>Stage</th>';
-    for(var di=0;di<nd;di++){
-      html+='<th class="'+(di===ti?'th-today':'')+'">'+(di===ti?'&#9660; TODAY ':'')+days[di]+'</th>';
-    }
+    for(var di=0;di<nd;di++) html+='<th class="'+(di===ti?'th-today':'')+'">'+(di===ti?'&#9660; TODAY ':'')+days[di]+'</th>';
     html+='</tr></thead><tbody>';
     for(var si=0;si<ns;si++){
-      html+='<tr><td>'+stages[si]+'</td>';
+      html+='<tr><td contenteditable="true">'+stages[si]+'</td>';
       for(var di=0;di<nd;di++){
         var a=actual[si][di], p=planned[si][di];
-        var cc=cellClass(a,p,di,ti);
-        var bg=cellBg(a,p,di,ti);
+        var cc=cellClass(a,p,di,ti), bg=cellBg(a,p,di,ti);
         var tdCls=(di===ti?'td-today':'')+bg;
-        html+='<td class="'+tdCls+'" contenteditable="true" data-si="'+si+'" data-di="'+di+'">';
-        html+='<span class="'+cc+'">'+a+' / '+p+'</span></td>';
+        html+='<td class="'+tdCls+'" contenteditable="true" data-si="'+si+'" data-di="'+di+'"><span class="'+cc+'">'+a+' / '+p+'</span></td>';
       }
       html+='</tr>';
     }
@@ -608,10 +521,7 @@
     $('prodTable').innerHTML=html;
   }
 
-  /* INIT */
-  loadCurrent();
-  render();
-  renderWiki();
+  loadCurrent(); render(); renderWiki();
 
   /* TABLE EDIT */
   $('prodTable').addEventListener('focusout', function(e){
@@ -623,7 +533,7 @@
     var txt=td.textContent.trim().replace(/[^\d\/]/g,'');
     var parts=txt.split('/');
     if(parts.length===2){
-      var a=parseInt(parts[0].trim(),10); var p=parseInt(parts[1].trim(),10);
+      var a=parseInt(parts[0].trim(),10), p=parseInt(parts[1].trim(),10);
       if(!isNaN(a)) d.actual[si][di]=a;
       if(!isNaN(p)) d.planned[si][di]=p;
       setData(d); render();
@@ -637,39 +547,38 @@
     var item=btn.closest('li')||btn.closest('tr')||btn.closest('.n-entry');
     if(!item) return;
     var parent=item.parentElement;
-
     if(btn.classList.contains('ic-del')){
       item.remove();
       var lb=$('limBody');
-      if(lb&&lb.children.length===0){
-        var tr=document.createElement('tr'); tr.id='noLim';
-        tr.innerHTML='<td colspan="6" class="no-issues">No limiters</td>';
-        lb.appendChild(tr);
-      }
+      if(lb&&lb.children.length===0){ var tr=document.createElement('tr'); tr.id='noLim'; tr.innerHTML='<td colspan="7" class="no-issues">No limiters</td>'; lb.appendChild(tr); }
       return;
     }
-
     var tag=item.tagName.toLowerCase();
     var siblings;
     if(tag==='tr') siblings=Array.from(parent.querySelectorAll('tr'));
     else if(tag==='li') siblings=Array.from(parent.querySelectorAll(':scope > li'));
     else siblings=Array.from(parent.querySelectorAll(':scope > .n-entry'));
     var idx=siblings.indexOf(item);
-
-    if(btn.classList.contains('ic-up')&&idx>0){
-      parent.insertBefore(item, siblings[idx-1]);
-    } else if(btn.classList.contains('ic-dn')&&idx<siblings.length-1){
+    if(btn.classList.contains('ic-up')&&idx>0) parent.insertBefore(item, siblings[idx-1]);
+    else if(btn.classList.contains('ic-dn')&&idx<siblings.length-1){
       var next=siblings[idx+1];
       if(next.nextSibling) parent.insertBefore(item, next.nextSibling);
       else parent.appendChild(item);
     }
   });
 
-  /* P-BADGE */
+  /* P-BADGE & S-BADGE TOGGLE */
   document.addEventListener('click', function(e){
-    if(!e.target.classList.contains('p-badge')||e.target.closest('.legend-inline')) return;
-    if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
-    else{ e.target.textContent='P1'; e.target.className='p-badge p1'; }
+    if(e.target.classList.contains('p-badge')&&!e.target.closest('.legend-inline')){
+      if(e.target.textContent==='P1'){ e.target.textContent='P2'; e.target.className='p-badge p2'; }
+      else{ e.target.textContent='P1'; e.target.className='p-badge p1'; }
+    }
+    if(e.target.classList.contains('s-badge')&&!e.target.closest('.legend-inline')){
+      var t=e.target.textContent.trim();
+      if(t==='OPEN'){ e.target.textContent='WIP'; e.target.className='s-badge s-wip'; }
+      else if(t==='WIP'){ e.target.textContent='DONE'; e.target.className='s-badge s-done'; }
+      else{ e.target.textContent='OPEN'; e.target.className='s-badge s-open'; }
+    }
   });
 
   /* + BUTTONS */
@@ -677,15 +586,15 @@
     var det=document.querySelector('details.notes-detail'); if(det) det.open=true;
     var box=$('notesBox');
     var nd=document.createElement('div'); nd.className='n-entry';
-    nd.innerHTML='<span class="n-date">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>';
+    nd.innerHTML='<span class="n-date" contenteditable="true">['+todayStr()+']</span><span contenteditable="true" style="flex:1">Enter notes...</span><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div>';
     box.insertBefore(nd,box.firstChild);
-    nd.querySelector('[contenteditable]').focus();
+    nd.querySelector('span[style]').focus();
   });
 
   $('btnLim').addEventListener('click', function(){
     var nl=document.getElementById('noLim'); if(nl) nl.remove();
     var lb=$('limBody'), tr=document.createElement('tr');
-    tr.innerHTML='<td><span class="p-badge p1">P1</span></td><td contenteditable="true">Issue...</td><td contenteditable="true">Action...</td><td contenteditable="true">Owner</td><td contenteditable="true">Date</td><td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>';
+    tr.innerHTML='<td><span class="p-badge p1">P1</span></td><td><span class="s-badge s-open">OPEN</span></td><td contenteditable="true">Issue...</td><td contenteditable="true">Action...</td><td contenteditable="true">Owner</td><td contenteditable="true">Date</td><td><div class="item-ctrl"><button class="ic ic-up">▲</button><button class="ic ic-dn">▼</button><button class="ic ic-del">×</button></div></td>';
     lb.appendChild(tr); tr.querySelectorAll('[contenteditable]')[0].focus();
   });
 
@@ -695,30 +604,151 @@
     ul.appendChild(li); li.querySelector('[contenteditable]').focus();
   });
 
-  /* AUTO-SAVE CURRENT */
-  var t; document.addEventListener('input', function(){
-    if(viewingSnapshot) return;
-    clearTimeout(t); t=setTimeout(saveCurrent,3000);
-  });
-  document.addEventListener('keydown', function(e){
-    if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); $('btnSave').click(); }
-  });
+  /* AUTO-SAVE */
+  var t; document.addEventListener('input', function(){ if(viewingSnapshot) return; clearTimeout(t); t=setTimeout(saveCurrent,3000); });
+  document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); $('btnSave').click(); } });
 
-  /* EXPORT */
-  $('btnExport').addEventListener('click', function(){
-    var c=document.documentElement.cloneNode(true);
-    var tb=c.querySelector('.toolbar'); if(tb) tb.remove();
-    var wk=c.querySelector('.wiki'); if(wk) wk.remove();
-    var ov=c.querySelector('.save-overlay'); if(ov) ov.remove();
-    var sb=c.querySelector('.snapshot-banner'); if(sb) sb.remove();
+  /* ── CLEAN CLONE helper ── */
+  function cleanClone(){
+    var c=$('report').cloneNode(true);
     c.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
     c.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
-    c.querySelectorAll('script').forEach(function(s){ s.remove(); });
+    c.querySelectorAll('.prod-note').forEach(function(e){ e.remove(); });
     c.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
     var ds=c.querySelector('#dataStore'); if(ds) ds.remove();
-    var b=new Blob(['<!DOCTYPE html>\n'+c.outerHTML],{type:'text/html'});
-    var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-    a.download='fauna-status-'+todayStr()+'.html'; a.click();
+    return c;
+  }
+
+  /* EXPORT HTML */
+  $('btnExport').addEventListener('click', function(){
+    var full=document.documentElement.cloneNode(true);
+    var tb=full.querySelector('.toolbar'); if(tb) tb.remove();
+    var wk=full.querySelector('.wiki'); if(wk) wk.remove();
+    var ov=full.querySelector('.save-overlay'); if(ov) ov.remove();
+    var sb=full.querySelector('.snapshot-banner'); if(sb) sb.remove();
+    full.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
+    full.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
+    full.querySelectorAll('script').forEach(function(s){ s.remove(); });
+    full.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
+    full.querySelectorAll('.prod-note').forEach(function(e){ e.remove(); });
+    var ds=full.querySelector('#dataStore'); if(ds) ds.remove();
+    var b=new Blob(['<!DOCTYPE html>\n'+full.outerHTML],{type:'text/html'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='fauna-status-'+todayStr()+'.html'; a.click();
+  });
+
+  /* EXPORT PNG */
+  $('btnPng').addEventListener('click', function(){
+    /* Use native canvas rendering approach */
+    var el=$('report');
+    /* Hide controls temporarily */
+    el.querySelectorAll('.item-ctrl').forEach(function(c){ c.style.display='none'; });
+    el.querySelectorAll('.prod-note').forEach(function(c){ c.style.display='none'; });
+
+    /* Create SVG foreignObject approach */
+    var w=el.scrollWidth, h=el.scrollHeight;
+    var clone=el.cloneNode(true);
+    clone.querySelectorAll('.item-ctrl').forEach(function(d){ d.remove(); });
+    clone.querySelectorAll('.prod-note').forEach(function(d){ d.remove(); });
+    clone.querySelectorAll('[contenteditable]').forEach(function(e){ e.removeAttribute('contenteditable'); });
+    var ds2=clone.querySelector('#dataStore'); if(ds2) ds2.remove();
+    clone.querySelectorAll('details.notes-detail').forEach(function(d){ d.setAttribute('open',''); });
+
+    /* Get computed styles */
+    var styles='';
+    var sheets=document.styleSheets;
+    for(var i=0;i<sheets.length;i++){
+      try{ var rules=sheets[i].cssRules; for(var j=0;j<rules.length;j++) styles+=rules[j].cssText+'\n'; }catch(e){}
+    }
+
+    var svgHTML='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'+
+      '<foreignObject width="100%" height="100%">'+
+      '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:system-ui,sans-serif;font-size:13px;line-height:1.5;color:#1a1a1a;">'+
+      '<style>'+styles+'</style>'+
+      clone.outerHTML+
+      '</div></foreignObject></svg>';
+
+    var svgBlob=new Blob([svgHTML],{type:'image/svg+xml;charset=utf-8'});
+    var url=URL.createObjectURL(svgBlob);
+
+    var canvas=document.createElement('canvas');
+    canvas.width=w*2; canvas.height=h*2;
+    var ctx=canvas.getContext('2d');
+    ctx.scale(2,2);
+
+    var img=new Image();
+    img.onload=function(){
+      ctx.fillStyle='#fff';
+      ctx.fillRect(0,0,w,h);
+      ctx.drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(function(blob){
+        var a=document.createElement('a');
+        a.href=URL.createObjectURL(blob);
+        a.download='fauna-status-'+todayStr()+'.png';
+        a.click();
+      },'image/png');
+    };
+    img.src=url;
+
+    /* Restore controls */
+    el.querySelectorAll('.item-ctrl').forEach(function(c){ c.style.display=''; });
+    el.querySelectorAll('.prod-note').forEach(function(c){ c.style.display=''; });
+  });
+
+  /* EMAIL */
+  $('btnEmail').addEventListener('click', function(){
+    var c=cleanClone();
+    var subject=encodeURIComponent('Fauna Sprout Robot — Production Status '+todayStr());
+    var bodyText='';
+    /* extract text content for email */
+    var header=c.querySelector('.header');
+    if(header) bodyText+=header.textContent.trim().replace(/\s+/g,' ')+'\n\n';
+
+    var execItems=c.querySelectorAll('.exec-list li');
+    if(execItems.length){
+      bodyText+='EXECUTIVE SUMMARY\n';
+      execItems.forEach(function(li){ bodyText+='- '+li.textContent.trim()+'\n'; });
+      bodyText+='\n';
+    }
+
+    var kpi=c.querySelector('.kpi-row');
+    if(kpi) bodyText+='STATUS: '+kpi.textContent.trim().replace(/\s+/g,' ')+'\n\n';
+
+    /* prod table */
+    var rows=c.querySelectorAll('.prod-table tr');
+    if(rows.length){
+      bodyText+='PRODUCTION OVERVIEW\n';
+      rows.forEach(function(r){
+        var cells=r.querySelectorAll('th, td');
+        var line=[];
+        cells.forEach(function(c){ line.push(c.textContent.trim()); });
+        bodyText+=line.join(' | ')+'\n';
+      });
+      bodyText+='\n';
+    }
+
+    /* limiters */
+    var limRows=c.querySelectorAll('.lim-table tbody tr');
+    if(limRows.length && !c.querySelector('.no-issues')){
+      bodyText+='MAIN LIMITERS\n';
+      limRows.forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        var line=[];
+        cells.forEach(function(c){ line.push(c.textContent.trim()); });
+        bodyText+=line.join(' | ')+'\n';
+      });
+      bodyText+='\n';
+    }
+
+    /* notes */
+    var notes=c.querySelectorAll('.n-entry');
+    if(notes.length){
+      bodyText+='DAILY NOTES\n';
+      notes.forEach(function(n){ bodyText+=n.textContent.trim()+'\n'; });
+    }
+
+    var body=encodeURIComponent(bodyText);
+    window.location.href='mailto:?subject='+subject+'&body='+body;
   });
 
 })();
